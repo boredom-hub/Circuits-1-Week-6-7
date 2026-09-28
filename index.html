@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BEE 211/L Weeks 6-7 Master Notes: Inductors, Capacitors, First-Order Circuits</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #F1F5F9;
+  --grid: rgba(48, 88, 148, .09);
+  --card: #FFFFFF;
+  --ink: #14203A;
+  --ink2: #4A586F;
+  --rule: #CBD5E3;
+  --slide: #264A8C;
+  --slide-bg: rgba(38, 74, 140, .05);
+  --pen: #B93326;
+  --pen-bg: rgba(185, 51, 38, .055);
+  --add: #0A7570;
+  --add-bg: rgba(10, 117, 112, .06);
+  --warn: #8A5A00;
+  --warn-bg: rgba(230, 160, 20, .13);
+  --hl: #FBE07A;
+  --hl2: #A6E6F3;
+  --sans: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1626; --grid: rgba(140, 170, 220, .07); --card: #152036; --ink: #E7EDF6; --ink2: #A8B4C7; --rule: #2B3953;
+    --slide: #86A9F5; --slide-bg: rgba(134, 169, 245, .08);
+    --pen: #FF9384; --pen-bg: rgba(255, 147, 132, .08);
+    --add: #62D6CB; --add-bg: rgba(98, 214, 203, .08);
+    --warn: #F2C56B; --warn-bg: rgba(242, 197, 107, .1);
+    --hl: #7A6716; --hl2: #17596E;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1626; --grid: rgba(140, 170, 220, .07); --card: #152036; --ink: #E7EDF6; --ink2: #A8B4C7; --rule: #2B3953;
+  --slide: #86A9F5; --slide-bg: rgba(134, 169, 245, .08);
+  --pen: #FF9384; --pen-bg: rgba(255, 147, 132, .08);
+  --add: #62D6CB; --add-bg: rgba(98, 214, 203, .08);
+  --warn: #F2C56B; --warn-bg: rgba(242, 197, 107, .1);
+  --hl: #7A6716; --hl2: #17596E;
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+}
+.layout { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px; padding: 24px; }
+.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); align-self: start; max-height: calc(100vh - 40px); overflow: auto; font-size: .9rem; line-height: 1.4; }
+.toc summary { font-weight: 700; cursor: pointer; padding: .3em 0; }
+.toc ul { list-style: none; margin: .3em 0 .8em; padding: 0; }
+.toc li { margin: .15em 0; }
+.toc ul ul { padding-left: .9em; border-left: 2px solid var(--rule); margin: .2em 0 .5em .2em; }
+.toc a { color: var(--ink); text-decoration: none; display: block; padding: .15em .3em; border-radius: 3px; }
+.toc a:hover { background: var(--slide-bg); color: var(--slide); }
+.toc .part > a { font-weight: 700; }
+a { color: var(--slide); }
+a:focus-visible, summary:focus-visible { outline: 3px solid var(--slide); outline-offset: 2px; }
+main { background: var(--card); padding: 44px 52px 72px; border: 1px solid var(--rule); border-radius: 4px; min-width: 0; }
+h1 { font-size: 2.3rem; line-height: 1.15; margin: 0 0 .4em; letter-spacing: -.01em; }
+h2 { font-size: 1.7rem; line-height: 1.2; margin: 2.8em 0 .6em; padding-top: .55em; border-top: 3px solid var(--ink); }
+h3 { font-size: 1.3rem; line-height: 1.25; margin: 2.1em 0 .5em; }
+h4 { font-size: 1.05rem; margin: 1.6em 0 .4em; color: var(--ink2); }
+p { margin: .7em 0; max-width: 72ch; }
+ul, ol { max-width: 72ch; }
+.lede { font-size: 1.15rem; color: var(--ink2); max-width: 60ch; }
+
+/* source-type blocks: the left bar tells you where the content came from */
+.src { margin: 1.1em 0; padding: .7em 1em .8em 1.1em; border-left: 4px solid var(--slide); background: var(--slide-bg); border-radius: 0 4px 4px 0; }
+.src > .tag { display: block; font-size: .82rem; font-weight: 700; color: var(--slide); margin: 0 0 .3em; }
+.src > :last-child { margin-bottom: 0; }
+.src.hand { border-left-color: var(--pen); background: var(--pen-bg); }
+.src.hand > .tag { color: var(--pen); }
+.src.hand p, .src.hand li, .src.hand dd, .src.hand dt { font-family: var(--hand); font-size: 1.32rem; line-height: 1.4; }
+.src.add { border-left-style: dashed; border-left-color: var(--add); background: var(--add-bg); }
+.src.add > .tag { color: var(--add); }
+.src.warn { border-left-color: var(--warn); background: var(--warn-bg); }
+.src.warn > .tag { color: var(--warn); }
+
+mark.y { background: linear-gradient(transparent 8%, var(--hl) 8%, var(--hl) 94%, transparent 94%); color: inherit; padding: 0 .12em; }
+mark.c { background: linear-gradient(transparent 8%, var(--hl2) 8%, var(--hl2) 94%, transparent 94%); color: inherit; padding: 0 .12em; }
+.result { display: inline-block; background: #FBE07A; color: #1B1B1B; padding: .05em .55em; font-weight: 700; border-radius: 2px; }
+.result.c { background: #A6E6F3; }
+.boxed { display: block; width: fit-content; max-width: 100%; margin: .9em auto; padding: .25em 1.3em; border: 2px solid var(--ink); overflow-x: auto; }
+.boxed mjx-container { margin: .3em 0 !important; }
+mjx-container[jax="SVG"][display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.eqrow { margin: .2em 0; }
+
+.ex { border: 1px solid var(--rule); border-radius: 6px; margin: 1.6em 0; background: var(--card); }
+.ex > header { padding: .55em 1em; border-bottom: 1px solid var(--rule); font-weight: 700; background: var(--bg); border-radius: 6px 6px 0 0; }
+.ex .body { padding: .3em 1em 1em; }
+.ex .prob { margin: .9em 0 .4em; padding-left: 1em; border-left: 4px solid var(--slide); max-width: 72ch; }
+.ex .src { margin: .8em 0; }
+dl.given { display: grid; grid-template-columns: max-content 1fr; gap: .1em 1em; margin: .2em 0; }
+dl.given dt { font-weight: 700; }
+dl.given dd { margin: 0; }
+.src.hand dl.given dt, .src.hand dl.given dd { font-family: var(--sans); font-size: 1rem; line-height: 1.5; }
+
+ol.derive { counter-reset: step; list-style: none; padding: 0; margin: .8em 0; max-width: none; }
+ol.derive > li { counter-increment: step; position: relative; padding: .1em 0 .1em 2.4em; margin: .5em 0; }
+ol.derive > li::before { content: counter(step); position: absolute; left: 0; top: .15em; width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--ink); color: var(--card); font-size: .8rem; font-weight: 700; display: grid; place-items: center; }
+ol.derive p { margin: .2em 0; }
+.tbl { overflow-x: auto; margin: 1em 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid var(--rule); padding: .45em .7em; text-align: left; vertical-align: top; }
+th { background: var(--bg); }
+td.n, th.n { text-align: center; }
+.src.hand table, .src.hand td, .src.hand th { font-family: var(--sans); }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .9em; background: var(--bg); padding: .05em .3em; border-radius: 3px; }
+figure { margin: 1.4em 0; }
+figure svg { width: 100%; height: auto; max-width: 640px; display: block; }
+figcaption { font-size: .9rem; color: var(--ink2); margin-top: .4em; max-width: 72ch; }
+.legend { display: grid; gap: .6em; margin: 1.4em 0; }
+.legend .src { margin: 0; }
+.hero { margin-bottom: 1.5em; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; padding: 0; gap: 0; }
+  .toc { position: static; max-height: none; padding: 14px 18px; background: var(--card); border-bottom: 1px solid var(--rule); }
+  main { padding: 28px 18px 56px; border: 0; border-radius: 0; }
+  h1 { font-size: 1.85rem; }
+  h2 { font-size: 1.45rem; }
+}
+@media print {
+  body { background: #fff; color: #000; font-size: 11pt; }
+  .toc { display: none; }
+  .layout { display: block; padding: 0; }
+  main { border: 0; padding: 0; }
+  .ex, .src, ol.derive > li { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+<details open>
+<summary>Contents</summary>
+<ul>
+  <li><a href="#legend">How to read this file</a></li>
+  <li><a href="#context">Course context</a></li>
+  <li class="part"><a href="#inductor">Part 1: The inductor</a>
+    <ul>
+      <li><a href="#ind-concept">Concept and mechanical analogy</a></li>
+      <li><a href="#ind-field">Construction and magnetic field</a></li>
+      <li><a href="#ind-symbols">Symbols and geometry</a></li>
+      <li><a href="#ind-ampere">Ampère's Law</a></li>
+      <li><a href="#ind-core">Core material</a></li>
+      <li><a href="#ind-vi">V-I relationship</a></li>
+      <li><a href="#ind-continuity">Continuity of current</a></li>
+      <li><a href="#ind-energy">Energy storage</a></li>
+      <li><a href="#ind-problems">Examples and exercises</a></li>
+    </ul></li>
+  <li class="part"><a href="#capacitor">Part 2: The capacitor</a>
+    <ul>
+      <li><a href="#cap-concept">Concept and construction</a></li>
+      <li><a href="#cap-capacitance">Capacitance and geometry</a></li>
+      <li><a href="#cap-vi">V-I relationship</a></li>
+      <li><a href="#cap-energy">Energy storage</a></li>
+      <li><a href="#cap-problems">Examples and exercises</a></li>
+    </ul></li>
+  <li class="part"><a href="#first-order">Part 3: First-order circuits</a>
+    <ul>
+      <li><a href="#fo-def">Definition</a></li>
+      <li><a href="#fo-if">Integrating factor method</a></li>
+      <li><a href="#fo-transient">Natural and forced response</a></li>
+      <li><a href="#fo-rc">RC transient response</a></li>
+      <li><a href="#fo-tau">Time constant and curves</a></li>
+      <li><a href="#fo-rc-problems">RC examples and exercises</a></li>
+      <li><a href="#fo-rl">RL transient response</a></li>
+      <li><a href="#fo-rl-problems">RL examples and exercises</a></li>
+    </ul></li>
+  <li class="part"><a href="#sheet">Master formula sheet</a></li>
+  <li class="part"><a href="#compare">Side-by-side comparison</a></li>
+  <li class="part"><a href="#manip">How to manipulate the formulas</a></li>
+  <li class="part"><a href="#added-solutions">Worked answers for unsolved problems</a></li>
+  <li class="part"><a href="#flags">Errors and unclear spots in the notes</a></li>
+</ul>
+</details>
+</nav>
+
+<main>
+<header class="hero">
+<h1>BEE 211/L Electrical Circuits 1<br>Weeks 6–7 master notes</h1>
+<p class="lede">Reactive components (the inductor and the capacitor) and the transient response of first-order RL and RC circuits. Compiled from your lecture slides and your handwritten annotations, with every derivation, formula, definition, example and exercise from the PDF.</p>
+</header>
+
+<h3 id="legend" style="margin-top:0">How to read this file</h3>
+<p>The bar on the left of each block tells you where the content came from.</p>
+<div class="legend">
+  <div class="src"><span class="tag">From the slides</span>Typed lecture content, kept close to the original wording.</div>
+  <div class="src hand"><span class="tag">Your handwritten notes</span><p>Everything you wrote or drew on the slides and grid pages: derivations, sketches, side remarks, worked solutions. Sketches are described in words.</p></div>
+  <div class="src add"><span class="tag">Added for study (not in the PDF)</span>My additions: answers to the problems that had no worked solution, rearranged formulas, and short explanations. Everything not marked this way is from your PDF.</div>
+</div>
+<p>Several blank grid pages in the PDF (scratch space after the continuity slide and around the energy derivation) contain no content, so they are not represented here. Yellow highlights mark results and terms you highlighted on the slides.</p>
+
+<h3 id="context">Course context</h3>
+<div class="src">
+  <span class="tag">From the slides (title page)</span>
+  <p><strong>BEE 211/L Electrical Circuits 1</strong>, Weeks 6–7, <strong>(Reactive Components)</strong>.</p>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  <p>Margin note on the title page, with an arrow up to "(Reactive Components)": "Inductor, capacitor of Transient Response". In other words, the reactive components are the inductor and the capacitor, and this unit covers their transient response.</p>
+</div>
+<p>The unit runs in three parts: the inductor (electrical inertia), the capacitor (electrical elasticity), and then the analysis of first-order circuits (RL and RC) using the integrating factor method.</p>
+
+<!-- ============ PART 1: INDUCTOR ============ -->
+<h2 id="inductor">Part 1: Electrical inertia, the inductor</h2>
+
+<h3 id="ind-concept">Concept and mechanical analogy</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The inductor is the passive circuit element that serves as the direct electrical analogue to <mark class="y">mechanical mass</mark>.</p>
+  <p>To understand the inductor, one must first appreciate the physics of the <mark class="y">magnetic field</mark>, as the behavior of the inductor is intrinsically linked to the storage of energy within this field.</p>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  <p>On the slide: a red box around "electrical analogue to mechanical mass", with an arrow pointing down from "to" (leading to your next page). Yellow highlights on "mechanical mass" and "magnetic field".</p>
+  <p>Next page, headed "Second order", you wrote the two equations side by side:</p>
+  \[ L\frac{d^2q}{dt^2} + R\frac{dq}{dt} + \frac{1}{C}q = e \]
+  \[ m\frac{d^2x}{dt^2} + C\frac{dx}{dt} + kx = F \]
+  <p>with an arrow from the \(m\,d^2x/dt^2\) term down to "m a" (mass times acceleration, since \(d^2x/dt^2 = a\)).</p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Reading your two equations term by term:</p>
+  <div class="tbl"><table>
+    <tr><th>Electrical (series RLC, charge form)</th><th>Mechanical (mass, damper, spring)</th></tr>
+    <tr><td>\(L\,\dfrac{d^2q}{dt^2}\): inductor</td><td>\(m\,\dfrac{d^2x}{dt^2} = ma\): mass (inertia)</td></tr>
+    <tr><td>\(R\,\dfrac{dq}{dt}\): resistor</td><td>damping coefficient times velocity (your note writes this coefficient as \(C\); it is <em>not</em> capacitance)</td></tr>
+    <tr><td>\(\dfrac{1}{C}\,q\): capacitor</td><td>\(kx\): spring</td></tr>
+    <tr><td>\(e\): source voltage</td><td>\(F\): applied force</td></tr>
+    <tr><td>\(q\): charge, with \(i = dq/dt\)</td><td>\(x\): position, with velocity \(dx/dt\)</td></tr>
+  </table></div>
+  <p>This is why the slides call the inductor "electrical inertia" and the capacitor "electrical elasticity" (a mechanical spring).</p>
+</div>
+
+<h3 id="ind-field">Physical construction and the magnetic field</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>Physically, an inductor is constructed by <strong>winding</strong> a conductive wire <strong>into a coil</strong>. This geometry is not arbitrary; it is <strong>designed to concentrate the magnetic flux</strong> produced by the current flowing through the wire.</p>
+  <p>According to Ampère's Law, <strong>any current</strong> flowing through a conductor <strong>generates a magnetic field circulating around it</strong>. By coiling the wire, these individual magnetic fields <strong>constructively interfere</strong> in the center of the coil, creating a region of <strong>high magnetic flux density</strong>.</p>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes (one grid page, four sketches)</span>
+  <ul>
+    <li><strong>Straight wire:</strong> a horizontal wire with current \(I\) pointing right and a looping arrow around it labeled \(\phi\) (flux). Red note: "vector field for magnetic field (follow right hand rule)".</li>
+    <li><strong>End-on view:</strong> a circle with a dot in the middle labeled \(I\) (current toward you), and a curved arrow around the outside labeled \(\phi\).</li>
+    <li><strong>Arrow notation:</strong> "•" means <em>away from surface</em> (out of the page toward you); "×" means <em>into the surface</em>. A short arrow drawn beneath shows a vector pointing left.</li>
+    <li><strong>Coil cross-section:</strong> a vertical core with wire wrapping around it. Each wire cross-section is marked with a dot or a × and has a small orange circle showing the field around it; the resulting flux \(\phi\) is an orange arrow running down the middle of the coil. Red notes: "right hand rule: thumb is the direction of the current" and "When flux overlaps it stacks the strength of the magnetic field".</li>
+    <li>Red summary: "Inductors are designed to maximize magnetic fields so we can utilize its properties."</li>
+  </ul>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Right-hand rule in one line: point your thumb along the current; your curled fingers show the direction the field circulates. Around a coil, curl your fingers along the current in the turns and your thumb points along the flux through the middle of the coil.</p>
+</div>
+
+<h3 id="ind-symbols">Inductor symbols and coil geometry</h3>
+<div class="src">
+  <span class="tag">From the slides (figure)</span>
+  <p>Four inductor symbols are shown:</p>
+  <ul>
+    <li><strong>Air core</strong>: a plain coil.</li>
+    <li><strong>Iron core</strong>: a coil with solid bars alongside it.</li>
+    <li><strong>Ferrite core</strong>: a coil with dashed bars alongside it.</li>
+    <li><strong>Variable core</strong>: a coil with an arrow through it.</li>
+  </ul>
+  <p>The physical drawing beside them shows a wire wound around a cylinder with the labels <strong>Length (ℓ)</strong>, <strong>Inner core material</strong>, <strong>Cross-sectional area (A)</strong>, <strong>Number of turns (N)</strong>, current <strong>i</strong> entering the coil, and voltage <strong>V</strong> across its terminals.</p>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  <p>Red box around the <strong>air core</strong> symbol: "most commonly used in this class".</p>
+</div>
+
+<h3 id="ind-ampere">Ampère's Law</h3>
+<div class="src">
+  <span class="tag">From the slides: Ampère's Law (integral form)</span>
+  <div class="boxed">\[ \oint \vec{B}\cdot d\vec{l} = \mu_0 I_{enc} \]</div>
+  <p>\(\vec{l}\) is an arbitrary <strong><em>closed</em> curve</strong> (<em>usually a circle for easier analysis</em>) around a conductor. The left-hand side measures how much of the magnetic field \(\vec{B}\) <strong>flows along</strong> (dot product) \(\vec{l}\). The equation states that its value is <strong>proportional</strong> to the <strong>current enclosed</strong> within the closed curve. The constant of proportionality is the <strong>permeability of free space</strong> \(\mu_0\).</p>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  <p>Decoding the symbols:</p>
+  <ul>
+    <li>\(\oint\) is the "closed-loop integral" (circled in red, with a label).</li>
+    <li>\(\vec{l}\) = path.</li>
+    <li>\(d\) = "a very small something" (a tiny piece of the path).</li>
+    <li>\(\vec{B}\) = magnetic flux density.</li>
+    <li>So: \(\vec{B}\cdot d\vec{l} = Bl\).</li>
+  </ul>
+  <p>Sketch: a circle with \(I_{enc}\) as a dot at its center; small arrows tangent to the circle show \(\vec{B}\) going around it. Red labels at the top: \(\vec{B}\) and \(d\vec{l}\) drawn along the same direction. "The circle is the path (\(l\))". Red note: "\(\vec{B}\) perfectly overlap \(\vec{l}\)" (the field is parallel to the path everywhere).</p>
+  <p>Dot-product refresher drawn on the right: two vectors \(\vec A\) and \(\vec B\) at angle \(\theta\): \(\vec A\cdot\vec B = AB\cos\theta\). When they point the same way (\(\theta = 0\)): \(\vec A\cdot\vec B = AB\).</p>
+  <p>Plain-language version, written on the page: <strong>Ampère's Law: if there is current, there is a magnetic field.</strong></p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Why \(\vec B\cdot d\vec l\) becomes just \(B\,dl\): the field is parallel to the path, so \(\cos\theta = 1\). For a circular path of radius \(r\) around a long straight wire, \(B\) has the same value everywhere on the path, so \(\oint B\,dl = B(2\pi r) = \mu_0 I\), giving \(B = \dfrac{\mu_0 I}{2\pi r}\). (Your note's \(Bl\) is shorthand for this: \(l\) stands for the total path length.) \(\mu_0 = 4\pi\times10^{-7}\ \text{H/m}\).</p>
+</div>
+
+<h3 id="ind-core">Core material</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The <strong>core</strong> material around which the wire is wound plays a significant role.</p>
+  <p>While a simple "air core" inductor is linear and behaves ideally, inserting a <strong>ferromagnetic</strong> material (like iron or ferrite) into the core acts as a <strong>magnetic flux concentrator</strong>.</p>
+</div>
+
+<h3 id="ind-vi">V-I relationship of an inductor</h3>
+
+<h4>Inductance</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The defining characteristic of an inductor is <strong>inductance</strong> (\(L\)), measured in <strong>Henries</strong> (H).</p>
+  <p>Inductance quantifies the device's ability to store energy in its magnetic field and is defined as the <strong>ratio of the magnetic flux linkage</strong> (\(\lambda\)) <strong>to the current</strong> (\(i\)) producing it.</p>
+  <div class="boxed">\[ L = \frac{d\lambda}{di} \]</div>
+</div>
+
+<h4>Flux linkage</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The <strong>flux linkage</strong> is the <strong>product of the magnetic flux</strong> (\(\Phi\)) <strong>and the number of turns</strong> (\(N\)) in the coil:</p>
+  <div class="boxed">\[ \lambda = \Phi N \]</div>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes: transformer sketch and magnetic circuit (one grid page)</span>
+  <p><strong>"magnetic flux linkage: \(\lambda = \phi N\)"</strong></p>
+  <p><strong>Transformer sketch.</strong> An AC source \(V_1\) drives current \(I_1\) into a primary coil wound on the left side of a rectangular core. The flux \(\phi\) travels around the core (orange arrows). A secondary coil on the right side carries current \(I_2\) through a load, with voltage \(V_2\) across it (+ and − marked). Dots and × marks on each winding show the current direction, with small orange circles for the field around each wire.</p>
+  <p>Red heading: <strong>"Transformer in action"</strong> — "\(V_1\) produces \(I_1\), \(I_1\) produces \(\phi\) (flux), \(\phi\) travels and makes \(I_2\) and \(I_2\) produces \(V_2\)".</p>
+  <p>Pasted summary box under it:</p>
+  <ul>
+    <li>\(V_1\) (primary voltage) causes \(I_1\) (primary current) to flow.</li>
+    <li>\(I_1\) establishes a time-varying magnetic flux (\(\Phi\)) in the core.</li>
+    <li>\(\Phi\) travels through the core and induces \(V_2\) (secondary voltage) via Faraday's Law.</li>
+    <li>\(V_2\) then drives \(I_2\) (secondary current), provided there is a closed circuit.</li>
+  </ul>
+  <p><strong>Magnetic circuit sketch.</strong> A loop drawn like an electric circuit: a source labeled "Ampere turn, mmf = NI" with "magnetomotive force" written beneath; a zig-zag element labeled "R = Reluctance"; and the flux \(\phi\) circulating around the loop. Under it:</p>
+  \[ NI = \phi R \qquad\text{compare with}\qquad V = IR \]
+  <p>Side note: "\(I = \phi\)" with an arrow to "directly proportional" (current and flux are directly proportional).</p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>The magnetic circuit is a direct analogy with a resistor circuit: <strong>mmf</strong> (\(NI\), in ampere-turns) plays the role of voltage, <strong>flux</strong> \(\Phi\) plays the role of current, and <strong>reluctance</strong> \(\mathcal{R}\) plays the role of resistance. Because flux is proportional to current, \(\lambda = N\Phi\) is proportional to \(i\), which is why the ratio \(L\) is a constant for a linear (air-core) inductor.</p>
+</div>
+
+<h4>Faraday's Law</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The circuit behavior of the inductor is governed by <strong>Faraday's Law of Induction</strong>, which states that a time-varying magnetic flux induces an electromotive force (EMF) or voltage (\(v\)) across the coil.</p>
+  <div class="boxed">\[ v = \frac{d\lambda}{dt} \]</div>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  <p>Beside the equation you added "or" and the alternative form:</p>
+  \[ v = N\frac{d\phi}{dt} \]
+</div>
+
+<h4>Deriving \(v = L\,di/dt\)</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <ol class="derive">
+    <li><p>Start from Faraday's Law and multiply and divide by \(di\) (chain rule):</p>
+      \[ v = \frac{d\lambda}{dt} = \frac{d\lambda}{di}\cdot\frac{di}{dt} \]</li>
+    <li><p>The first factor is the definition of inductance, \(L = d\lambda/di\):</p>
+      \[ v = L\frac{di}{dt} \]</li>
+  </ol>
+  <div class="boxed">\[ v = L\frac{di}{dt} \]</div>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  <p>Beside the boxed result: "Small letter signifies changing with respect to time." (Lowercase \(v\) and \(i\) are time-varying quantities; uppercase such as \(I\) and \(V\) are constant or specific values.)</p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Consistency check with your other form: \(\lambda = N\Phi\), so \(v = d\lambda/dt = N\,d\Phi/dt\). Both forms are the same law. The formula \(v = L\,di/dt\) uses the passive sign convention (current enters the terminal marked positive). Reading it aloud: the voltage across an inductor is proportional to how <em>fast the current is changing</em>, not to the current itself. Constant current means \(di/dt = 0\), so \(v = 0\).</p>
+</div>
+
+<h3 id="ind-continuity">Continuity of inductor current</h3>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  <p>A graph of \(i\) versus \(t\): the current jumps straight up from 0 to 5 at one instant and then stays flat at 5. Red title: <strong>"physical impossibility"</strong>. Beside it: "current cannot change instantaneously" (underlined). Underneath:</p>
+  \[ \frac{di}{dt} = \frac{5}{0} = \infty \]
+  <p>(the "= ∞" is highlighted in cyan).</p>
+</div>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>An <strong>inductor opposes changes in current</strong> just as <strong>mass opposes changes in velocity</strong> (inertia).</p>
+  <p>To change the current through an inductor instantaneously would require \(di/dt = \infty\), which implies an infinite voltage, <strong>a physical impossibility</strong>.</p>
+  <p>Therefore, current through an inductor must be a <strong>continuous</strong> function of time.</p>
+</div>
+
+<h3 id="ind-energy">The inductor as energy storage</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>Inductors are distinct from resistors in that they <strong>do not dissipate power as heat</strong> (<em>in the <strong>ideal</strong> case</em>); they store energy.</p>
+  <p>The instantaneous power \(p(t)\) absorbed by an inductor is the product of voltage and current.</p>
+  <div class="eqrow">\[ p = vi \]</div>
+</div>
+
+<h4>Derivation of stored energy</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <ol class="derive">
+    <li><p>Substitute \(v = L\,di/dt\) into \(p = vi\):</p>
+      \[ p = vi = L\frac{di}{dt}\,i = Li\frac{di}{dt} \]</li>
+    <li><p>Energy is the integral of power over time. Use \(\tau\) as the dummy variable of integration:</p>
+      \[ W = \int_0^t p\,d\tau = \int_0^t Li\frac{di}{d\tau}\,d\tau \]</li>
+    <li><p>The \(d\tau\) cancels (struck through on the slide), which changes the variable of integration from time to current, and the limits change from \(0\to t\) to \(0\to I\):</p>
+      \[ W = \int_0^I Li\,di = \left[\tfrac{1}{2}Li^2\right]_0^I = \tfrac{1}{2}LI^2 \]</li>
+  </ol>
+  <div class="boxed">\[ W = \frac{1}{2}LI^2 \]</div>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes (grid page)</span>
+  <p>Top left, three lines:</p>
+  \[ p = Li\frac{di}{dt} \qquad\qquad w = \int p\,dt \]
+  <p>The third line is hard to read; it appears to be the mechanical-work analogue \(W = \int F\,dx\).</p>
+  <p>Top middle: \(\displaystyle\int_0^t p\,d\tau = \int_0^t Li\frac{di}{d\tau}\,d\tau\) with a red arrow at \(\tau\) labeled <strong>"dummy variable for time"</strong> and the two \(d\tau\) crossed out in green.</p>
+  <p>Below it, the integration written out:</p>
+  \[ w = L\int_0^t i\,di = L\int_0^I i\,di = L\left[\frac{i^2}{2}\right]_0^I = \tfrac{1}{2}LI^2 \]
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Why a dummy variable: the upper limit of the integral is already \(t\), so the variable being integrated needs a different name (\(\tau\)). Why the limits change: at \(\tau = 0\) the current is 0 and at \(\tau = t\) the current has reached \(I\), so integrating over current runs from 0 to \(I\). Note the energy depends only on the final current \(I\), not on how quickly it got there.</p>
+</div>
+
+<h3 id="ind-problems">Inductor examples and exercises</h3>
+
+<section class="ex">
+<header>Inductor Example 1: fuel injector solenoid (back-EMF)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A fuel injector solenoid in a diesel engine has an inductance of \(L = 10\) mH. During the injection cycle, the control unit drives a current that rises linearly from 0 A to 5 A in 2 ms. Calculate the magnitude of the back-EMF (induced voltage) opposing this change.</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(L = 10\ \text{mH}\left(\dfrac{1\ \text{H}}{1000\ \text{mH}}\right) = 0.01\ \text{H}\)<br>
+      \(\Delta i = 5 - 0 = 5\ \text{A}\)<br>
+      \(\Delta t = 2\ \text{ms}\left(\dfrac{1\ \text{s}}{1000\ \text{ms}}\right) = 0.002\ \text{s}\)</dd>
+  </dl>
+  <p>Solution:</p>
+  \[ v = L\left(\frac{di}{dt}\right) = (0.01)\left(\frac{5}{0.002}\right) \]
+  <p><span class="result">v = 25 V</span></p>
+  <p>You also sketched the solenoid: a vertical core with a coil wound around it.</p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Because the ramp is linear, \(di/dt\) is constant and equals \(\Delta i/\Delta t = 2500\) A/s. Check: \(0.01\times2500 = 25\) V. ✓</p>
+</div>
+</div>
+</section>
+
+<section class="ex">
+<header>Inductor Example 2: DC motor field winding (stored energy)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> The field winding of a large industrial DC motor has an inductance of 4 H. In steady-state operation connected to a DC supply, the winding carries a current of 5 A. How much energy is stored in the magnetic field of the motor?</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(L = 4\ \text{H}\)<br>\(I = 5\ \text{A}\) (red note: "steady-state DC current")</dd>
+  </dl>
+  <p>Solution:</p>
+  \[ W = \tfrac{1}{2}LI^2 = \tfrac{1}{2}(4)(5)^2 \]
+  <p><span class="result">W = 50 J</span></p>
+</div>
+</div>
+</section>
+
+<section class="ex">
+<header>Inductor Exercise 1: relay coil switched off (induced voltage)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> When a relay coil with inductance 200 mH is switched off, the <mark class="y">magnetic field collapses</mark>, and the current decays exponentially according to \(i(t) = 0.5e^{-500t}\) A. Calculate the induced voltage \(v(t)\) at the instant the switch is opened (\(t = 0\)).</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(L = 200\ \text{mH}\left(\dfrac{1\ \text{H}}{1000\ \text{mH}}\right) = 0.2\ \text{H}\)<br>\(i(t) = 0.5e^{-500t}\) A</dd>
+  </dl>
+  <p>Differentiate (red note: "Time rates: differentiated with respect to time (s)"):</p>
+  \[ \frac{di}{dt} = (-500)(0.5)e^{-500t}\ \text{A/s} = -250e^{-500t}\ \text{A/s} \]
+  <p>At \(t = 0\):</p>
+  \[ \left.\frac{di}{dt}\right|_{t=0} = -250e^{-500(0)} = -250\ \text{A/s} \]
+  <p>Solution:</p>
+  \[ v = L\left(\frac{di}{dt}\right) = (0.2)(-250) \]
+  <p><span class="result">v = −50 V</span></p>
+  <p>Red note: <strong>"negative is correct, it aligns with Lenz's Law (opposition to change)"</strong> and "the field 'fights back' as it collapses".</p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>The full function is \(v(t) = 0.2\times(-250e^{-500t}) = -50e^{-500t}\) V, which starts at −50 V and decays to 0. The current is falling, so \(di/dt\) is negative and the induced voltage is negative: it acts to keep the current flowing.</p>
+</div>
+</div>
+</section>
+
+<section class="ex">
+<header>Inductor Exercise 2: MRI gradient coil (instantaneous power)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A gradient coil in an MRI scanner behaves as an inductor. The current is ramped up to create a positional magnetic field. If the current increases according to \(i(t) = 100t\) A (a steep ramp), and the inductance is 500 µH, calculate the instantaneous power \(p(t)\) entering the coil at \(t = 0.1\) s.</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(L = 500\ \mu\text{H}\left(\dfrac{1\ \text{H}}{1\times10^{6}\ \mu\text{H}}\right) = 5\times10^{-4}\ \text{H}\)<br>
+      \(i(t) = 100t\) A<br>
+      \(\dfrac{di}{dt} = 100\ \text{A/s}\) (red note: "Differentiate")</dd>
+  </dl>
+  <p>At \(t = 0.1\) s: \(i(0.1) = 100(0.1) = 10\) A.</p>
+  <p>Solution:</p>
+  \[ v = L\left(\frac{di}{dt}\right) \qquad p = (v)(i) = \left[L\left(\frac{di}{dt}\right)\right][i] = \left[5\times10^{-4}(100)\right][10] \]
+  <p><span class="result">p = 0.5 W</span></p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Step by step: \(v = 5\times10^{-4}\times100 = 0.05\) V (constant, since \(di/dt\) is constant), then \(p = 0.05\times10 = 0.5\) W. The power grows with time because \(i = 100t\) grows: \(p(t) = 5t\) W.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ PART 2: CAPACITOR ============ -->
+<h2 id="capacitor">Part 2: Electrical elasticity, the capacitor</h2>
+
+<h3 id="cap-concept">Concept and construction</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The capacitor is the <strong>dual</strong> of the inductor.</p>
+  <p>While the inductor <strong>opposes changes in current</strong> and stores energy in a <strong>magnetic field</strong>, the capacitor <strong>opposes changes in voltage</strong> and stores energy in an <strong>electric field</strong>.</p>
+  <p>It represents the electrical equivalent of a <strong>mechanical spring</strong>.</p>
+</div>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>A capacitor is formed by <strong>two conductive plates separated by an insulator</strong>, known as a <strong><em>dielectric</em></strong>. Ideally, <strong>no current flows</strong> through the dielectric.</p>
+  <p>Instead, when a voltage source is applied, positive charge (\(+q\)) accumulates on one plate, and an equal amount of negative charge (\(-q\)) accumulates on the opposite plate.</p>
+  <p>This <strong>separation of charge creates an electric field</strong> across the dielectric, <strong>storing potential energy</strong>.</p>
+</div>
+<div class="src">
+  <span class="tag">From the slides (figure)</span>
+  <p>A labeled diagram: two <strong>conductive parallel plates</strong> with a <strong>dielectric</strong> between them, connected to a battery of voltage \(V_C\). The left plate carries \(Q+\) (plus signs) and the right plate carries \(Q-\) (minus signs), labeled "electrical charge". The circuit <strong>symbol</strong> of the capacitor is two short parallel lines with a lead out of each.</p>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes (two sketches)</span>
+  <ul>
+    <li><strong>Circuit sketch:</strong> a DC source connected to two plates with a dielectric between them. The top plate is marked + + + and the bottom − − −. Yellow arrows show the electric field pointing down through the dielectric, labeled "electric field → stores potential energy".</li>
+    <li>Blue arrow from the plates: "once it gets full no current will flow", then <strong>IDEALLY</strong> in capitals.</li>
+    <li><strong>3D sketch:</strong> two parallelogram plates with "dielectric" written between them, and a bracket on the right pointing to the plates labeled "conductor".</li>
+  </ul>
+</div>
+
+<h3 id="cap-capacitance">Capacitance and plate geometry</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The "capacity" of the device to <strong><em>store</em> charge</strong> per <strong>unit voltage</strong> is defined as <strong>capacitance</strong> (\(C\)), measured in <strong>Farads</strong> (F).</p>
+  <div class="boxed">\[ C = \frac{q}{v} \]</div>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  \[ C = \frac{q}{v} \qquad\qquad \text{Farad} = \frac{\text{Coulomb}}{\text{Volts}} \]
+</div>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The value of \(C\) is determined by the <strong>geometry of the plates</strong> and the <strong>material properties of the dielectric</strong>.</p>
+  <div class="boxed">\[ C = \frac{\epsilon A}{d} \]</div>
+  <p>where \(\epsilon\) is the <strong>permittivity of the dielectric</strong>, \(A\) is the <strong>plate area</strong>, and \(d\) is the <strong>separation distance</strong>.</p>
+  <div class="boxed">\[ \epsilon = \epsilon_0\,\epsilon_r \]</div>
+  <p>where \(\epsilon_0\) is the <strong>permittivity of free space</strong> (vacuum) and \(\epsilon_r\) is the <strong>relative permittivity</strong>, a value used to <em>relate</em> the permittivity of different materials to the permittivity of free space.</p>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  <p>Sketch: a circuit with a source \(I\) feeding two plates (+ + + top, − − − bottom), electric field \(\vec{E}\) arrows pointing down, and \(d\) marking the gap between the plates.</p>
+  <p>Definitions: "\(\epsilon\) = permittivity". "\(\epsilon = \epsilon_0\epsilon_r\)", with \(\epsilon_r\) labeled "relative permittivity" and \(\epsilon_0\) labeled "permittivity of free space".</p>
+  <p>Side fact on the page (the speed of light, linking the inductor and capacitor constants):</p>
+  \[ c = \frac{1}{\sqrt{\mu_0\epsilon_0}} = 299\,792\,458\ \text{m/s} \]
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>What the geometry formula says: more plate area gives more capacitance (more room for charge); a smaller gap gives more capacitance (the plates pull charge in harder); a dielectric with a higher \(\epsilon_r\) gives more capacitance. Your note writes the speed of light with a capital "C"; it is the speed of light \(c\), not capacitance. Here \(\mu_0\) is the constant from Ampère's Law in Part 1 and \(\epsilon_0\) is the constant from this section.</p>
+</div>
+
+<h3 id="cap-vi">V-I relationship of a capacitor</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>Electric current \(i\) is defined as the <strong><em>rate of flow</em> of charge</strong>.</p>
+  <div class="eqrow">\[ i = \frac{dq}{dt} = \frac{d}{dt}(Cv) = C\frac{dv}{dt} \]</div>
+  <div class="boxed">\[ i = C\frac{dv}{dt} \]</div>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes</span>
+  <p>Under the boxed formula you compared the three basic components:</p>
+  <div class="tbl"><table>
+    <tr><th>Inductor</th><th>Capacitor (boxed on slide)</th><th>Ohm's (resistor)</th></tr>
+    <tr><td>\(v = L\dfrac{di}{dt}\)</td><td>\(i = C\dfrac{dv}{dt}\)</td><td>\(v = iR\)</td></tr>
+  </table></div>
+  <p>On the next grid page you wrote:</p>
+  <p>\(i = C\dfrac{dv}{dt}\) and \(i = \dfrac{dq}{dt}\), with the unit note: <strong>Ampere = coulomb / second</strong>.</p>
+  <p>Then solving for \(v\):</p>
+  \[ \int dv = \int \frac{1}{C}\,i\,dt \qquad\Rightarrow\qquad v = \frac{1}{C}\int i\,dt \]
+  <p>and then the chain \(v = \dfrac{1}{C}\ldots\) (left unfinished), \(v = \dfrac{q}{C}\), \(C = \dfrac{q}{v}\), arriving back at the definition of capacitance.</p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>The unfinished line is the step \(\int i\,dt = q\) (current is charge per second, so integrating current gives charge), which turns \(v = \frac{1}{C}\int i\,dt\) into \(v = q/C\).</p>
+</div>
+
+<h4>Current only flows when voltage is changing</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>This equation is the <strong>dual</strong> of the inductor equation.</p>
+  <p>It states that <strong>current flows</strong> into a capacitor <strong>only when the voltage across it is changing</strong>.</p>
+  <p>If the voltage is constant (\(dv/dt = 0\), i.e., <strong>DC steady state</strong>), the <strong>current is zero</strong>, and the <strong>capacitor acts as an open circuit</strong>.</p>
+</div>
+
+<h4>Continuity of capacitor voltage</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>Furthermore, just as an inductor resists instantaneous current change, <strong>a capacitor <em>resists</em> instantaneous voltage change</strong>. An <strong>instantaneous</strong> change in voltage would require an infinite current surge (\(i \to \infty\)).</p>
+  \[ i = C\frac{dv}{dt} = C\frac{dv}{0} = \text{undefined} \]
+</div>
+
+<h3 id="cap-energy">The capacitor as energy storage</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>Like the inductor, the <em>ideal</em> capacitor <strong>does not dissipate power</strong>; it <strong>stores</strong> it.</p>
+  <ol class="derive">
+    <li><p>Substitute \(i = C\,dv/dt\) into \(p = vi\):</p>
+      \[ p = vi = v\left(C\frac{dv}{dt}\right) = Cv\frac{dv}{dt} \]</li>
+    <li><p>Integrate power over time (dummy variable \(\tau\)); the \(d\tau\) cancels, so integrate over voltage from 0 to \(V\):</p>
+      \[ W = \int_0^t p\,d\tau = \int_0^t Cv\frac{dv}{d\tau}\,d\tau = \int_0^V Cv\,dv = \left[\tfrac{1}{2}Cv^2\right]_0^V = \tfrac{1}{2}CV^2 \]</li>
+  </ol>
+  <div class="boxed">\[ W = \frac{1}{2}CV^2 \]</div>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>This is the mirror image of the inductor result \(W = \tfrac12 LI^2\): swap \(L\to C\) and \(I\to V\). Nothing in the derivation says where the energy goes when the capacitor is connected to a resistor; that is the discharge case in the RC section, where the resistor dissipates it as heat.</p>
+</div>
+
+<h3 id="cap-problems">Capacitor examples and exercises</h3>
+
+<section class="ex">
+<header>Capacitor Example 1: defibrillator capacitor (plate area)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A capacitor in an external defibrillator is designed to store charge. It is a parallel plate type using a high-performance polymer film dielectric (\(\epsilon_r \approx 2.2\)). To handle high voltage, the separation \(d\) is 50 µm. If the required capacitance is 32 µF, what is the required plate area? (\(\epsilon_0 \approx 8.85\times10^{-12}\) F/m)</p>
+<p style="font-size:.9rem;color:var(--ink2)">You highlighted \(\epsilon_r \approx 2.2\), "d is 50 µm", "capacitance is 32 µ", and \(\epsilon_0 \approx 8.85\times10^{-12}\) F/m.</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(C = 32\ \mu\text{F}\left(\dfrac{1\ \text{F}}{1\times10^{6}\ \mu\text{F}}\right) = 3.2\times10^{-5}\ \text{F}\)<br>
+      \(\epsilon_r = 2.2\)<br>
+      \(\epsilon_0 = 8.85\times10^{-12}\ \text{F/m}\)<br>
+      \(d = 50\ \mu\text{m}\left(\dfrac{1\ \text{m}}{1\times10^{6}\ \mu\text{m}}\right) = 5\times10^{-5}\ \text{m}\)</dd>
+    <dt>Required:</dt><dd>\(A = ?\)</dd>
+  </dl>
+  <p>Solution. Start from \(C = \dfrac{\epsilon A}{d}\), i.e. \(C = \dfrac{\epsilon_0\epsilon_r A}{d}\). Multiply both sides by \(d\) (the \(d\)'s cancel on the right, crossed out in green), then divide both sides by \(\epsilon_0\epsilon_r\):</p>
+  \[ d(C) = \left(\frac{\epsilon_0\epsilon_r A}{d}\right)d \;\Rightarrow\; Cd = \epsilon_0\epsilon_r A \;\Rightarrow\; A = \frac{(C)(d)}{(\epsilon_0)(\epsilon_r)} \]
+  \[ A = \frac{(3.2\times10^{-5})(5\times10^{-5})}{(8.85\times10^{-12})(2.2)} \]
+  <p><span class="result">A = 82.1777 m²</span></p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Check: numerator \(1.6\times10^{-9}\), denominator \(1.947\times10^{-11}\), ratio ≈ 82.18. ✓ The area is large because the dielectric gap is tiny; in real film capacitors the plates are long strips of metallized film that are rolled up, so this area does not mean a huge physical part.</p>
+</div>
+</div>
+</section>
+
+<section class="ex">
+<header>Capacitor Example 2: biphasic defibrillator (stored energy)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A standard biphasic defibrillator charges its capacitor to 2000 V. If the capacitance is 150 µF, how much energy is available to be delivered to the patient (assuming ideal transfer)?</p>
+<p style="font-size:.9rem;color:var(--ink2)">You highlighted "standard biphasic defibrillator", "2000 V", "capacitance is 150 µF", "energy", "available to" and "assuming ideal transfer".</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(V = 2000\ \text{V}\)<br>\(C = 150\ \mu\text{F}\left(\dfrac{1\ \text{F}}{1\times10^{6}\ \mu\text{F}}\right) = 1.5\times10^{-4}\ \text{F}\)</dd>
+    <dt>Required:</dt><dd>\(W = ?\) (red note under it: "Ideal")</dd>
+  </dl>
+  \[ W = \tfrac{1}{2}CV^2 = \tfrac{1}{2}(1.5\times10^{-4})(2000)^2 \]
+  <p><span class="result">W = 300 J</span></p>
+</div>
+</div>
+</section>
+
+<div class="src hand" id="cap-battery">
+  <span class="tag">Your handwritten notes: difference between a battery and a capacitor (below Example 2)</span>
+  <div class="tbl"><table>
+    <tr><th>Battery</th><th>Capacitor</th></tr>
+    <tr><td>stores energy in <strong>chemicals</strong></td><td>stores energy in an <strong>electric field</strong></td></tr>
+    <tr><td><strong>gradual</strong> charge and discharge</td><td><strong>fast</strong> discharge and charge</td></tr>
+  </table></div>
+  <p>That fast discharge is why capacitors suit defibrillators and photoflash units.</p>
+</div>
+
+<section class="ex">
+<header>Capacitor Exercise 1: photoflash capacitor (constant charging current)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> During the charging phase of a photoflash capacitor (\(C = 200\ \mu\text{F}\)), the voltage rises linearly from 0 V to 300 V in 2 seconds. Calculate the constant current drawn by the capacitor during this charging period.</p>
+<p style="font-size:.9rem;color:var(--ink2)">You highlighted "charging phase", "photoflash capacitor", "C = 200 µF", "0 V to 300 V", "in 2 seconds" and "constant current", and wrote \(\Delta V\) above "to 300 V".</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(C = 200\ \mu\text{F}\left(\dfrac{1\ \text{F}}{1\times10^{6}\ \mu\text{F}}\right) = 2\times10^{-4}\ \text{F}\)<br>
+      \(V_i = 0\ \text{V}\), \(V_F = 300\ \text{V}\), so \(\Delta V = 300\ \text{V}\)<br>
+      \(t = 2\ \text{s}\)</dd>
+    <dt>Required:</dt><dd>\(I = ?\)</dd>
+  </dl>
+  <p>Rate of change of voltage:</p>
+  \[ \frac{dv}{dt} = \frac{\Delta v}{\Delta t} = \frac{300}{2} = 150\ \text{V/s} \]
+  <p>Solution:</p>
+  \[ I = C\left(\frac{dv}{dt}\right) = (2\times10^{-4})(150) \]
+  <p><span class="result">I = 0.03 A</span></p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>A straight-line voltage ramp means a constant \(dv/dt\), hence a constant current: \(0.03\) A = 30 mA.</p>
+</div>
+</div>
+</section>
+
+<section class="ex">
+<header>Capacitor Exercise 2: smoothing capacitor (energy and bleeder power)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A technician turns off a power supply containing a large smoothing capacitor (\(C = 2200\ \mu\text{F}\)). The voltage across it is 50 V. (a) How much energy is stored? (b) If a "bleeder resistor" drains this energy in 5 seconds, what is the average power dissipated?</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(C = 2200\ \mu\text{F}\left(\dfrac{1\ \text{F}}{1\times10^{6}\ \mu\text{F}}\right) = 2.2\times10^{-3}\ \text{F}\)<br>\(V = 50\ \text{V}\)</dd>
+    <dt>Required:</dt><dd>\(W = ?\), \(P_{avg} = ?\)</dd>
+  </dl>
+  <p><strong>For stored energy:</strong></p>
+  \[ W = \tfrac{1}{2}CV^2 = \tfrac{1}{2}(2.2\times10^{-3})(50)^2 \]
+  <p><span class="result">W = 2.75 J</span></p>
+  <p><strong>Average power dissipated:</strong></p>
+  \[ P_{avg} = \frac{W}{t} = \frac{2.75}{5} \]
+  <p><span class="result">P_avg = 0.55 W</span></p>
+</div>
+</div>
+</section>
+
+<!-- ============ PART 3: FIRST-ORDER CIRCUITS ============ -->
+<h2 id="first-order">Part 3: Analysis of first-order circuits (RL and RC)</h2>
+
+<h3 id="fo-def">What makes a circuit first-order</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>A "first-order" circuit contains <strong>resistance</strong> and a <strong><em>single</em> equivalent energy storage element</strong> (either C or L).</p>
+  <p>The complexity of the circuit (number of resistors or sources) does not increase the order of the system; as long as all capacitors can be combined into one equivalent \(C_{eq}\) or all inductors into one \(L_{eq}\), the governing equation remains a first-order linear ODE.</p>
+</div>
+
+<h3 id="fo-if">The integrating factor method (general derivation)</h3>
+<div class="src hand">
+  <span class="tag">Your handwritten notes (top of the "Series RL" grid page)</span>
+  <p>You derived the method for a general first-order linear ODE \(y' + P(x)\,y = Q(x)\) so that every circuit afterwards is just a substitution:</p>
+  <ol class="derive">
+    <li><p>Multiply both sides by \(e^{\int P(x)dx}\) (written in red):</p>
+      \[ e^{\int P(x)dx}\left(y' + P(x)\,y\right) = \left[Q(x)\right]e^{\int P(x)dx} \]</li>
+    <li><p>Distribute:</p>
+      \[ y'\,e^{\int P(x)dx} + y\,e^{\int P(x)dx}\,P(x) = Q(x)\,e^{\int P(x)dx} \]</li>
+    <li><p>Reminder in purple, the product rule: \(d(uv) = v'\,u + v\,u'\). The left side has exactly this shape.</p></li>
+    <li><p>Derivative of the exponential (chain rule):</p>
+      \[ \frac{d}{dx}\left(e^{\int P(x)dx}\right) = e^{\int P(x)dx}\left(\frac{d}{dx}\!\left(\int P(x)dx\right)\right) = e^{\int P(x)}\left(P(x)\right) \]</li>
+    <li><p>So the left side collapses into a single derivative:</p>
+      \[ \frac{d}{dx}\left(y\,e^{\int P(x)dx}\right) = Q(x)\,e^{\int P(x)dx} \]</li>
+    <li><p>Multiply by \(dx\) and integrate both sides:</p>
+      \[ d\!\left(y\,e^{\int P(x)dx}\right) = Q(x)\,e^{\int P(x)dx}\,dx \;\Rightarrow\; \int d\!\left(y\,e^{\int P(x)dx}\right) = \int Q(x)\,e^{\int P(x)dx}\,dx \]
+      \[ y\,e^{\int P(x)dx} = \int Q(x)\,e^{\int P(x)dx}\,dx \]</li>
+  </ol>
+  <p>Summary (highlighted in cyan on the page):</p>
+  <div class="boxed" style="background:var(--hl2);color:#14203A;border-color:#14203A">\[ \text{integrating factor (i.f.)} = e^{\int P(x)dx} \qquad\quad y\cdot\text{i.f.} = \int Q(x)\,\text{i.f.}\,dx \]</div>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Recipe: (1) get the ODE into the form \(\dfrac{dy}{dt} + P\,y = Q\) with a coefficient of 1 on the derivative; (2) read off \(P\) and \(Q\); (3) compute the i.f. \(=e^{\int P\,dt}\); (4) write \(y\cdot\text{i.f.} = \int Q\cdot\text{i.f.}\,dt\); (5) integrate, add the constant \(K\), divide by the i.f.; (6) use the initial condition to find \(K\).</p>
+</div>
+
+<h3 id="fo-transient">Transient response: natural and forced</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The <strong>response</strong> of a linear circuit to a <strong><em>sudden change</em></strong> (like a switch closing) consists of two distinct mathematical parts:</p>
+  <ol>
+    <li><strong>Natural</strong> response</li>
+    <li><strong>Forced</strong> response</li>
+  </ol>
+  <h4 style="margin-top:1em">Natural response \(x_n(t)\)</h4>
+  <p>This is the behavior of the circuit due solely to the <strong>internal energy <em>stored</em></strong> in the capacitor or inductor. It represents the system "relaxing" to zero energy in the <strong><em>absence of external sources</em></strong>. Mathematically, this is the <strong>solution to the <em>homogeneous</em> differential equation</strong>.</p>
+  <h4>Forced response \(x_f(t)\)</h4>
+  <p>This is the behavior <strong><em>imposed</em> on the circuit by the independent sources</strong> (voltage or current) for \(t > 0\). For DC sources, this is often called the <strong>steady-state response</strong>. Mathematically, this is the <strong><em>particular solution</em> to the <em>non-homogeneous</em> differential equation</strong>.</p>
+  <h4>Total response</h4>
+  <p>The total response is the superposition:</p>
+  <div class="boxed">\[ x_{total} = x_n + x_f \]</div>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Where these appear in the solutions below: the decaying exponential term, \(K e^{-t/\tau}\), is the natural response (it dies out as time passes); the constant term, \(V_S\) for the RC circuit or \(V_S/R\) for the RL circuit, is the forced (steady-state) response.</p>
+</div>
+
+<h3 id="fo-rc">RC transient response</h3>
+<div class="src">
+  <span class="tag">From the slides: the setup</span>
+  <p>Consider a series circuit consisting of a <strong>DC voltage source</strong> \(V_S\), a <strong>resistor</strong> \(R\), and a <strong>capacitor</strong> \(C\). A switch closes at \(t = 0\). The capacitor has an initial voltage \(V_0\) (which may be 0). We seek the voltage expression \(v_C\) for \(t > 0\).</p>
+</div>
+
+<h4>Step 1: KVL gives the differential equation</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>We apply <strong>Kirchhoff's Voltage Law</strong> (KVL) to the loop for \(t > 0\).</p>
+  \[ V_S - v_R - v_C = 0 \]
+  \[ v_R + v_C = V_S \]
+  \[ Ri + v_C = V_S \]
+  <p>Substitute the capacitor current \(i = C\,dv_C/dt\):</p>
+  \[ R\left(C\frac{dv_C}{dt}\right) + v_C = V_S \]
+  \[ \frac{dv_C}{dt} + \frac{1}{RC}v_C = \frac{V_S}{RC} \]
+</div>
+
+<h4>Step 2: solve with the integrating factor</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>We solve for \(v_C\) using the <strong>integrating factor</strong> method.</p>
+  \[ \frac{dv_C}{dt} + \frac{1}{RC}v_C = \frac{V_S}{RC} \]
+  \[ i.f. = e^{\int 1/RC\,dt} = e^{t/RC} \]
+  \[ v_C\,e^{t/RC} = \int \frac{V_S}{RC}\,e^{t/RC}\,dt \]
+  <p>Integrating the right side gives:</p>
+  \[ v_C\,e^{t/RC} = V_S\,e^{t/RC} + K \]
+  <p>Note: \(K\) is used for the arbitrary constant to <em>avoid confusion</em> with capacitance \(C\). Dividing by \(e^{t/RC}\):</p>
+  \[ v_C = V_S + K\,e^{-t/RC} \]
+</div>
+
+<h4>Step 3: apply the initial condition</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p><strong>Apply initial conditions</strong> to obtain the value for the arbitrary constant.</p>
+  \[ v_C(0) = V_0 \]
+  \[ v_C = V_S + K e^{-t/RC} \;\rightarrow\; V_0 = V_S + K e^{-0/RC} \]
+  \[ V_0 = V_S + K \]
+  \[ K = V_0 - V_S \]
+</div>
+
+<h4>Result</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <div class="boxed">\[ v_C = V_S + (V_0 - V_S)\,e^{-t/RC} \]</div>
+  <p>The voltage <strong>starts at \(V_0\) and <em>exponentially decays/grows</em></strong> towards the <strong>final steady-state value \(V_S\)</strong>. The rate of this transition is governed by \(RC\).</p>
+</div>
+
+<h4>Your own charge-based derivation of the same circuit</h4>
+<div class="src hand">
+  <span class="tag">Your handwritten notes ("Series RC" grid page)</span>
+  <p>Circuit: source \(E\), resistor (voltage \(V_R\)), capacitor (voltage \(V_C\)), current \(I\) around the loop. You solved for the charge \(q\) instead of the voltage:</p>
+  <ol class="derive">
+    <li><p>KVL, then write the capacitor voltage as an integral of current:</p>
+      \[ E - V_R - V_C = 0 \qquad E - RI - \frac{1}{C}\int I\,dt = 0 \]</li>
+    <li><p>Charge and current: \(I = \dfrac{dq}{dt}\), so \(\int dq = \int I\,dt\) and \(q = \int I\,dt\). Substituting:</p>
+      \[ E - R\frac{dq}{dt} - \frac{1}{C}q = 0 \;\Rightarrow\; R\frac{dq}{dt} + \frac{1}{C}q = E \]</li>
+    <li><p>Divide by \(R\) to get the standard form, with \(P = \dfrac{1}{RC}\) and \(Q = \dfrac{E}{R}\):</p>
+      \[ \frac{dq}{dt} + \frac{1}{RC}q = \frac{E}{R} \]</li>
+    <li><p>Integrating factor and integration:</p>
+      \[ i.f. = e^{\int \frac{1}{RC}dt} = e^{t/RC} \]
+      \[ q\,e^{t/RC} = \int \frac{E}{R}\,e^{t/RC}\,dt = \frac{E}{R}\int e^{t/RC}dt = \frac{E}{R}\cdot RC\,e^{t/RC} + K \]</li>
+    <li><p>Divide by \(e^{t/RC}\):</p>
+      \[ q = EC + K e^{-t/RC} \]</li>
+    <li><p>Initial condition \(q = q_0\) at \(t = 0\) (the \(e^0 = 1\) is marked in green):</p>
+      \[ q_0 = EC + K \;\Rightarrow\; K = q_0 - EC \]</li>
+  </ol>
+  <p>Result (highlighted in cyan):</p>
+  <div class="boxed" style="background:var(--hl2);color:#14203A;border-color:#14203A">\[ q = EC + (q_0 - EC)\,e^{-t/RC} \]</div>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>The two results are the same law: dividing the charge result by \(C\) gives \(v_C = q/C = E + (q_0/C - E)e^{-t/RC}\), which matches \(V_S + (V_0 - V_S)e^{-t/RC}\) with \(V_S = E\) and \(V_0 = q_0/C\).</p>
+</div>
+
+<h3 id="fo-tau">The RC time constant and the shape of the curves</h3>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The term \(RC\) has units of time and is designated as the <strong>time constant</strong> \(\tau\).</p>
+  <div class="boxed">\[ \tau = RC \]</div>
+  <p>At \(t = \tau\), the exponential factor is \(e^{-RC/RC} = e^{-1} \approx 0.368\).</p>
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes ("τ = RC → Why τ" grid page)</span>
+  <p><strong>Charging from an empty capacitor.</strong> Circuit sketch: source, an open switch, a resistor and a coil-like symbol in series (see the note in the last section about this symbol). Starting from the general result and setting \(V_0 = 0\) (marked in green):</p>
+  \[ v_C = V_S + (V_0 - V_S)e^{-t/RC} \;\Rightarrow\; v_C = V_S\left(1 - e^{-t/RC}\right) \]
+  <p>You also wrote the normalized form "\(V_c = 1 - e^{-t/RC}\)", and then evaluated it at one time constant:</p>
+  \[ v_C = V_S\left(1 - e^{-RC/RC}\right) = V_S\left(1 - e^{-1}\right) \quad\Rightarrow\quad v_C = 0.632\,V_S \]
+  <p><strong>Why \(\tau\)?</strong> A plot of \(v_C\) versus \(t\): the curve rises from 0 toward a dashed line at \(V_S\), with red dots at \(1\tau, 2\tau, 3\tau, 4\tau, 5\tau\) and the fraction of \(V_S\) written under each:</p>
+  <div class="tbl"><table>
+    <tr><th class="n">Time</th><th class="n">\(1\tau\)</th><th class="n">\(2\tau\)</th><th class="n">\(3\tau\)</th><th class="n">\(4\tau\)</th><th class="n">\(5\tau\)</th></tr>
+    <tr><td>\(v_C / V_S\)</td><td class="n">0.632</td><td class="n">0.865</td><td class="n">0.95</td><td class="n">0.982</td><td class="n">0.993</td></tr>
+  </table></div>
+  <p>Yellow note: <strong>"WE ALWAYS NEED 5 TIME CONSTANT"</strong>. A red note at the right end of the curve, partly hard to read, ties "∞" to about 5τ (the curve has effectively reached its final value).</p>
+  <p><strong>The current.</strong> From the charge result with \(q_0 = 0\) and \(I = dq/dt\) (the minus signs cancel, crossed out in green):</p>
+  \[ q = EC - EC\,e^{-t/RC} \]
+  \[ I = \frac{dq}{dt} = EC\left(e^{-t/RC}\right)\left(\frac{1}{RC}\right) \;\Rightarrow\; I = \frac{E}{R}\,e^{-t/RC} \]
+  <p>Plot of \(I\) versus \(t\): starts at the dashed line \(E/R\) and decays toward 0, with the value under each time constant given in multiples of \(E/R\):</p>
+  <div class="tbl"><table>
+    <tr><th class="n">Time</th><th class="n">\(1\tau\)</th><th class="n">\(2\tau\)</th><th class="n">\(3\tau\)</th><th class="n">\(4\tau\)</th><th class="n">\(5\tau\)</th></tr>
+    <tr><td>\(I / (E/R)\)</td><td class="n">0.368</td><td class="n">0.135</td><td class="n">0.050</td><td class="n">0.018</td><td class="n">0.007</td></tr>
+  </table></div>
+  <p><strong>Steady state, \(t = \infty\)</strong> (you wrote "∞ = 9999" as a practical stand-in for a very large number). Yellow notes:</p>
+  <ul>
+    <li>"IN A STEADY-STATE DC CIRCUIT, A CAPACITOR ACTS LIKE AN OPEN CIRCUIT"</li>
+    <li>"IN A STEADY-STATE DC CIRCUIT, A INDUCTOR ACTS LIKE A SHORT CIRCUIT"</li>
+  </ul>
+</div>
+
+<figure>
+<svg viewBox="0 0 640 300" role="img" aria-label="Charging voltage rising toward its final value and current decaying toward zero, marked at one to five time constants">
+<line x1="60" y1="250" x2="580" y2="250" stroke="var(--ink)" stroke-width="1.5"/>
+<line x1="60" y1="250" x2="60" y2="40" stroke="var(--ink)" stroke-width="1.5"/>
+<line x1="60" y1="176.4" x2="580" y2="176.4" stroke="var(--rule)" stroke-dasharray="3 4"/><text x="52" y="180" text-anchor="end" style="fill:var(--ink2)" font-size="12">0.368</text><line x1="60" y1="123.6" x2="580" y2="123.6" stroke="var(--rule)" stroke-dasharray="3 4"/><text x="52" y="128" text-anchor="end" style="fill:var(--ink2)" font-size="12">0.632</text><line x1="60" y1="50" x2="580" y2="50" stroke="var(--rule)" stroke-dasharray="3 4"/><text x="52" y="54" text-anchor="end" style="fill:var(--ink2)" font-size="12">1</text><line x1="164" y1="250" x2="164" y2="256" stroke="var(--ink2)"/><text x="164" y="272" text-anchor="middle" style="fill:var(--ink2)" font-size="13">1τ</text><line x1="268" y1="250" x2="268" y2="256" stroke="var(--ink2)"/><text x="268" y="272" text-anchor="middle" style="fill:var(--ink2)" font-size="13">2τ</text><line x1="372" y1="250" x2="372" y2="256" stroke="var(--ink2)"/><text x="372" y="272" text-anchor="middle" style="fill:var(--ink2)" font-size="13">3τ</text><line x1="476" y1="250" x2="476" y2="256" stroke="var(--ink2)"/><text x="476" y="272" text-anchor="middle" style="fill:var(--ink2)" font-size="13">4τ</text><line x1="580" y1="250" x2="580" y2="256" stroke="var(--ink2)"/><text x="580" y="272" text-anchor="middle" style="fill:var(--ink2)" font-size="13">5τ</text>
+<polyline points="60.0,250.0 65.2,240.2 70.4,231.0 75.6,222.1 80.8,213.7 86.0,205.8 91.2,198.2 96.4,190.9 101.6,184.1 106.8,177.5 112.0,171.3 117.2,165.4 122.4,159.8 127.6,154.4 132.8,149.3 138.0,144.5 143.2,139.9 148.4,135.5 153.6,131.3 158.8,127.3 164.0,123.6 169.2,120.0 174.4,116.6 179.6,113.3 184.8,110.2 190.0,107.3 195.2,104.5 200.4,101.8 205.6,99.3 210.8,96.9 216.0,94.6 221.2,92.4 226.4,90.4 231.6,88.4 236.8,86.5 242.0,84.8 247.2,83.1 252.4,81.4 257.6,79.9 262.8,78.5 268.0,77.1 273.2,75.7 278.4,74.5 283.6,73.3 288.8,72.2 294.0,71.1 299.2,70.1 304.4,69.1 309.6,68.1 314.8,67.3 320.0,66.4 325.2,65.6 330.4,64.9 335.6,64.1 340.8,63.4 346.0,62.8 351.2,62.2 356.4,61.6 361.6,61.0 366.8,60.5 372.0,60.0 377.2,59.5 382.4,59.0 387.6,58.6 392.8,58.2 398.0,57.8 403.2,57.4 408.4,57.0 413.6,56.7 418.8,56.3 424.0,56.0 429.2,55.7 434.4,55.5 439.6,55.2 444.8,54.9 450.0,54.7 455.2,54.5 460.4,54.3 465.6,54.0 470.8,53.9 476.0,53.7 481.2,53.5 486.4,53.3 491.6,53.2 496.8,53.0 502.0,52.9 507.2,52.7 512.4,52.6 517.6,52.5 522.8,52.3 528.0,52.2 533.2,52.1 538.4,52.0 543.6,51.9 548.8,51.8 554.0,51.7 559.2,51.6 564.4,51.6 569.6,51.5 574.8,51.4 580.0,51.3" fill="none" stroke="var(--slide)" stroke-width="2.5"/>
+<polyline points="60.0,50.0 65.2,59.8 70.4,69.0 75.6,77.9 80.8,86.3 86.0,94.2 91.2,101.8 96.4,109.1 101.6,115.9 106.8,122.5 112.0,128.7 117.2,134.6 122.4,140.2 127.6,145.6 132.8,150.7 138.0,155.5 143.2,160.1 148.4,164.5 153.6,168.7 158.8,172.7 164.0,176.4 169.2,180.0 174.4,183.4 179.6,186.7 184.8,189.8 190.0,192.7 195.2,195.5 200.4,198.2 205.6,200.7 210.8,203.1 216.0,205.4 221.2,207.6 226.4,209.6 231.6,211.6 236.8,213.5 242.0,215.2 247.2,216.9 252.4,218.6 257.6,220.1 262.8,221.5 268.0,222.9 273.2,224.3 278.4,225.5 283.6,226.7 288.8,227.8 294.0,228.9 299.2,229.9 304.4,230.9 309.6,231.9 314.8,232.7 320.0,233.6 325.2,234.4 330.4,235.1 335.6,235.9 340.8,236.6 346.0,237.2 351.2,237.8 356.4,238.4 361.6,239.0 366.8,239.5 372.0,240.0 377.2,240.5 382.4,241.0 387.6,241.4 392.8,241.8 398.0,242.2 403.2,242.6 408.4,243.0 413.6,243.3 418.8,243.7 424.0,244.0 429.2,244.3 434.4,244.5 439.6,244.8 444.8,245.1 450.0,245.3 455.2,245.5 460.4,245.7 465.6,246.0 470.8,246.1 476.0,246.3 481.2,246.5 486.4,246.7 491.6,246.8 496.8,247.0 502.0,247.1 507.2,247.3 512.4,247.4 517.6,247.5 522.8,247.7 528.0,247.8 533.2,247.9 538.4,248.0 543.6,248.1 548.8,248.2 554.0,248.3 559.2,248.4 564.4,248.4 569.6,248.5 574.8,248.6 580.0,248.7" fill="none" stroke="var(--pen)" stroke-width="2.5"/>
+<circle cx="164" cy="123.6" r="4" fill="var(--slide)"/><circle cx="268" cy="77.1" r="4" fill="var(--slide)"/><circle cx="372" cy="60.0" r="4" fill="var(--slide)"/><circle cx="476" cy="53.7" r="4" fill="var(--slide)"/><circle cx="580" cy="51.3" r="4" fill="var(--slide)"/><circle cx="164" cy="176.4" r="4" fill="var(--pen)"/><circle cx="268" cy="222.9" r="4" fill="var(--pen)"/><circle cx="372" cy="240.0" r="4" fill="var(--pen)"/><circle cx="476" cy="246.3" r="4" fill="var(--pen)"/><circle cx="580" cy="248.7" r="4" fill="var(--pen)"/>
+<text x="392.8" y="78.0" style="fill:var(--slide)" font-size="14" font-weight="700">v_C / V_S (charging from 0)</text>
+<text x="179.6" y="126.0" style="fill:var(--pen)" font-size="14" font-weight="700">i / (V_S/R)</text>
+<text x="580" y="292" text-anchor="end" style="fill:var(--ink2)" font-size="13">time in multiples of τ</text>
+</svg>
+<figcaption><strong>Added for study.</strong> Both curves for a capacitor charging from empty. The blue voltage curve passes 63.2% at 1τ and is at 99.3% by 5τ; the red current curve starts at its maximum and is at 36.8% at 1τ and 0.7% at 5τ. The RL current follows the blue curve, and the RL inductor voltage follows the red one.</figcaption>
+</figure>
+
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Where the numbers come from: each entry is \(1 - e^{-k}\) (charging voltage) or \(e^{-k}\) (current, or the fraction still to go) with \(k = 1,2,3,4,5\). After \(5\tau\) the voltage is within 0.7% of its final value, which is why 5τ is treated as "done". Before the switch closes the current is zero, then it jumps to \(E/R\) at \(t = 0^+\) (the capacitor acts like a short circuit at that instant because its voltage cannot jump) and decays.</p>
+</div>
+
+<h3 id="fo-rc-problems">RC examples and exercises</h3>
+
+<section class="ex">
+<header>RC Example 1: charging an uncharged capacitor (voltage at a given time)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A series RC circuit consists of a 12-V DC voltage source, a 2.2-kΩ resistor, and a 470-µF capacitor. The capacitor is initially uncharged (\(V_0 = 0\) V). At \(t = 0\), the switch closes. Calculate the voltage across the capacitor at exactly \(t = 2\) seconds.</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <p>Switch reminder: "open = off, closed = on".</p>
+  \[ v_C = V_S + (V_0 - V_S)e^{-t/RC} = 12 + (0 - 12)\,e^{-2/2200(470\times10^{-6})} \]
+  <p><span class="result">v_C = 10.266 V</span></p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>\(\tau = RC = 2200\times470\times10^{-6} = 1.034\) s, so \(t/\tau = 2/1.034 = 1.934\) and \(e^{-1.934} = 0.1445\). Then \(v_C = 12(1 - 0.1445) = 10.27\) V. About 86% of the source after roughly two time constants. ✓ Note the exponent needs the product \(RC\) in the denominator: \(t/(RC)\).</p>
+</div>
+</div>
+</section>
+
+<section class="ex">
+<header>RC Example 2: switching to a higher source (time to reach a voltage)</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A timing capacitor in a sensor circuit (\(C = 10\ \mu\text{F}\), \(R = 100\ \text{k}\Omega\)) has been connected to a 5-V source for a long time (steady-state). At \(t = 0\), the switch instantly moves to connect the RC combination to a higher voltage source of 15 V. How much time does it take for the capacitor voltage to reach 14 V?</p>
+<div class="src hand">
+  <span class="tag">Your handwritten solution</span>
+  <p>Circuit sketch: a 15 V source on top and a 5 V source below, a two-way switch choosing between them, then a 100 kΩ resistor and a 10 µF capacitor in series. Note: "charge for a long time = it is fully charged".</p>
+  <p><strong>At the 5-V source</strong> (long time; "9999" stands for a very large \(t\), the exponential is crossed out in green):</p>
+  \[ v_C = V_S + (V_0 - V_S)e^{-t/RC} = 5 + (0 - 5)e^{-9999} \;\Rightarrow\; v_C = 5\ \text{V} \]
+  <p><strong>At the 15-V source:</strong> the capacitor now starts at \(V_0 = 5\) V and the final value is \(V_S = 15\) V.</p>
+  \[ v_C = V_S + (V_0 - V_S)e^{-t/RC} \]
+  \[ 14 = 15 - 10e^{-t/RC} \;\Rightarrow\; 10e^{-t/RC} = 1 \;\Rightarrow\; e^{-t/RC} = \frac{1}{10} \]
+  \[ -\frac{t}{RC} = \ln\frac{1}{10} \;\Rightarrow\; t = -RC\ln\frac{1}{10} = -(100\,000)(10\times10^{-6})\ln\frac{1}{10} \]
+  <p><span class="result">t = 2.30 s</span></p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Here \(RC = 1\) s, so \(t = \tau\ln 10 = 2.30\tau\). The key idea: a capacitor that has been connected for a long time is fully charged (acts as an open circuit), so its voltage at the instant of switching, \(V_0 = 5\) V, carries over unchanged. Voltage cannot jump.</p>
+</div>
+</div>
+</section>
+
+<section class="ex">
+<header>RC Exercise 1: current after one time constant</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> An RC circuit with \(V_S = 24\) V, \(R = 10\ \Omega\), and \(C = 500\ \mu\text{F}\) closes at \(t = 0\) with zero initial charge. Calculate the current \(i(t)\) flowing through the resistor after one time constant has passed (\(t = \tau\)).</p>
+<p>No worked solution is in your notes. See <a href="#sol-rc1">the worked answer in the added section</a>: about 0.883 A.</p>
+</div>
+</section>
+
+<section class="ex">
+<header>RC Exercise 2: energy left after one time constant</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A 2200-µF capacitor in a power supply filter discharges through a bleeder resistor. The initial voltage is 50 V (\(V_S = 0\) for discharging). Calculate the energy remaining in the capacitor after one time constant has passed.</p>
+<p>No worked solution is in your notes. See <a href="#sol-rc2">the worked answer in the added section</a>: about 0.372 J.</p>
+</div>
+</section>
+
+<h3 id="fo-rl">RL transient response</h3>
+<div class="src">
+  <span class="tag">From the slides: the setup</span>
+  <p>Consider a series circuit consisting of a <strong>DC voltage source</strong> \(V_S\), a <strong>resistor</strong> \(R\), and an <strong>inductor</strong> \(L\). A switch closes at \(t = 0\). We solve for the inductor current \(i_L\).</p>
+</div>
+
+<h4>Step 1: KVL gives the differential equation</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>We apply <strong>Kirchhoff's Voltage Law</strong> (KVL) to the loop for \(t > 0\).</p>
+  \[ V_S - v_R - v_L = 0 \]
+  \[ v_L + v_R = V_S \]
+  \[ L\frac{di}{dt} + Ri = V_S \]
+  \[ \frac{di_L}{dt} + \frac{R}{L}i_L = \frac{V_S}{L} \]
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes ("Series RL" grid page)</span>
+  <p>Circuit: source \(E\), resistor (\(V_R\)), inductor (\(V_L\)), current \(I\).</p>
+  \[ E - V_R - V_L = 0 \qquad E - RI - L\frac{dI}{dt} = 0 \qquad \frac{dI}{dt} + \frac{R}{L}I = \frac{E}{L} \]
+  <p>An arrow from that last line points to the note "There is no longer a constant" (the derivative now stands alone with no coefficient in front of it, so the equation is in standard form and \(P = R/L\), \(Q = E/L\) can be read straight off).</p>
+</div>
+
+<h4>Step 2: solve with the integrating factor</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>We solve using the <strong>integrating factor</strong> method. (The slide text says "solve for \(v_C\)"; for this circuit the unknown is \(i_L\).)</p>
+  \[ \frac{di_L}{dt} + \frac{R}{L}i_L = \frac{V_S}{L} \]
+  \[ i.f. = e^{\int R/L\,dt} = e^{Rt/L} \]
+  \[ i_L\,e^{Rt/L} = \int \frac{V_S}{L}\,e^{Rt/L}\,dt \]
+  \[ i_L\,e^{Rt/L} = \frac{V_S}{R}\,e^{Rt/L} + K \]
+  <p>Note: \(K\) is used for the arbitrary constant to <em>avoid confusion</em> with capacitance \(C\). Dividing by \(e^{Rt/L}\):</p>
+  \[ i_L = \frac{V_S}{R} + K\,e^{-Rt/L} \]
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes (same derivation)</span>
+  \[ i.f. = e^{\int \frac{R}{L}dt} = e^{Rt/L} \]
+  \[ I\,e^{Rt/L} = \int \frac{E}{L}e^{Rt/L}dt = \frac{E}{L}\int e^{Rt/L}dt = \frac{E}{L}\cdot\frac{L}{R}\,e^{Rt/L} + C \]
+  <p>Dividing through by \(e^{Rt/L}\) (the line under the equation):</p>
+  \[ I = \frac{E}{R} + K\,e^{-Rt/L} \]
+</div>
+
+<h4>Step 3: apply the initial condition</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p><strong>Apply initial conditions</strong> to obtain the value for the arbitrary constant.</p>
+  \[ i_L(0) = I_0 \]
+  \[ i_L = \frac{V_S}{R} + Ke^{-Rt/L} \;\rightarrow\; I_0 = \frac{V_S}{R} + Ke^{-R\cdot 0/L} \]
+  \[ I_0 = \frac{V_S}{R} + K \]
+  \[ K = I_0 - \frac{V_S}{R} \]
+</div>
+<div class="src hand">
+  <span class="tag">Your handwritten notes: two cases</span>
+  <p><strong>General initial current.</strong> At \(t = 0\), \(I = I_0\) (\(e^0 = 1\) marked in green): \(I_0 = \dfrac{E}{R} + K \Rightarrow K = I_0 - \dfrac{E}{R}\), giving</p>
+  \[ I = \frac{E}{R} + \left(I_0 - \frac{E}{R}\right)e^{-Rt/L} \]
+  <p><strong>Starting from zero current</strong> (a separate branch on the right of the page): at \(t = 0\), \(I = 0\):</p>
+  \[ 0 = \frac{E}{R} + K \;\Rightarrow\; K = -\frac{E}{R} \;\Rightarrow\; I = \frac{E}{R} - \frac{E}{R}e^{-Rt/L} = \frac{E}{R}\left(1 - e^{-Rt/L}\right) \]
+</div>
+
+<h4>Result</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <div class="boxed">\[ i_L = \frac{V_S}{R} + \left(I_0 - \frac{V_S}{R}\right)e^{-Rt/L} \]</div>
+  <p>The mathematical structure is <em>identical</em> to the RC case, with \(i\) replacing \(v\), and \(R/L\) replacing \(1/RC\). The solution follows the same exponential trajectory.</p>
+  <p>Here, the steady-state current is \(V_S/R\) (since the inductor becomes a short circuit).</p>
+</div>
+
+<h4>RL time constant</h4>
+<div class="src">
+  <span class="tag">From the slides</span>
+  <p>The term \(L/R\) has units of time and is designated as the <strong>time constant</strong> \(\tau\). (The slide text reads "The term \(RC\)", a leftover from the RC slide; the formula on the slide is the correct one.)</p>
+  <div class="boxed">\[ \tau = L/R \]</div>
+  <p>At \(t = \tau\), the exponent is \(e^{-\frac{R}{L}\left(\frac{L}{R}\right)} = e^{-1} \approx 0.368\).</p>
+</div>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>Units check: henries divided by ohms is seconds. The 63.2%, 86.5%, 95.0%, 98.2% and 99.3% milestones at \(1\tau\) to \(5\tau\) from the RC section apply to the RL current in the same way: starting from zero, \(i_L = \dfrac{V_S}{R}\left(1 - e^{-t/\tau}\right)\).</p>
+</div>
+
+<h3 id="fo-rl-problems">RL examples and exercises</h3>
+<p>The RL problems on the slides have no worked solutions in your notes. The answers are in <a href="#added-solutions">the added section</a>; the problem statements are reproduced here.</p>
+
+<section class="ex">
+<header>RL Example 1: solenoid valve current at 5 ms</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A solenoid valve is modeled as a series RL circuit with \(L = 500\) mH and wire resistance \(R = 50\ \Omega\). It is connected to a 24-V DC source at \(t = 0\). Initial current is zero. Calculate the instantaneous current flowing through the inductor at \(t = 5\) ms.</p>
+<p>Answer (worked in the added section): \(i \approx 0.189\) A.</p>
+</div>
+</section>
+
+<section class="ex">
+<header>RL Example 2: when the inductor voltage equals the resistor voltage</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> Using the same solenoid from Example 1 connecting to the source at \(t = 0\), calculate the specific time when the voltage across the inductor is exactly equal to the voltage across the resistor.</p>
+<p>Answer (worked in the added section): \(t \approx 6.93\) ms.</p>
+</div>
+</section>
+
+<section class="ex">
+<header>RL Exercise 1: discharging an industrial magnet</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> An industrial magnet (\(L = 2\) H, \(R = 10\ \Omega\)) is carrying a steady current of 10 A. At \(t = 0\), the source is removed and the magnet discharges through its own resistance (\(V_S = 0\)). Calculate the time required for the current to drop to 1 A.</p>
+<p>Answer (worked in the added section): \(t \approx 0.461\) s.</p>
+</div>
+</section>
+
+<section class="ex">
+<header>RL Exercise 2: time for the stored energy to reach 75% of maximum</header>
+<div class="body">
+<p class="prob"><strong>Problem (slide).</strong> A circuit has \(V_S = 10\) V, \(R = 100\ \Omega\), and \(L = 200\) mH. The switch closes at \(t = 0\). Calculate the time \(t\) required for the energy stored in the magnetic field to reach 75% of its maximum steady-state value.</p>
+<p>Answer (worked in the added section): \(t \approx 4.02\) ms.</p>
+</div>
+</section>
+
+<!-- ============ FORMULA SHEET ============ -->
+<h2 id="sheet">Master formula sheet</h2>
+<p>Every formula that appears in the PDF, grouped by topic.</p>
+
+<h3>Inductor and magnetics</h3>
+<div class="tbl"><table>
+  <tr><th>Quantity</th><th>Formula</th><th>Notes</th></tr>
+  <tr><td>Ampère's Law</td><td>\(\oint\vec B\cdot d\vec l = \mu_0 I_{enc}\)</td><td>closed path around the current; \(\mu_0\) = permeability of free space</td></tr>
+  <tr><td>Dot product</td><td>\(\vec A\cdot\vec B = AB\cos\theta\)</td><td>parallel vectors: \(AB\)</td></tr>
+  <tr><td>Flux linkage</td><td>\(\lambda = \Phi N\)</td><td>\(N\) = number of turns</td></tr>
+  <tr><td>Magnetic circuit</td><td>\(\text{mmf} = NI\); \(NI = \Phi\mathcal R\)</td><td>ampere-turns; \(\mathcal R\) = reluctance; compare \(V = IR\)</td></tr>
+  <tr><td>Inductance</td><td>\(L = d\lambda/di\)</td><td>henries (H)</td></tr>
+  <tr><td>Faraday's Law</td><td>\(v = d\lambda/dt = N\,d\Phi/dt\)</td><td></td></tr>
+  <tr><td>Inductor V-I</td><td>\(v = L\,di/dt\)</td><td>current must be continuous</td></tr>
+  <tr><td>Inductor power</td><td>\(p = vi = Li\,di/dt\)</td><td></td></tr>
+  <tr><td>Inductor energy</td><td>\(W = \tfrac12 LI^2\)</td><td>joules</td></tr>
+  <tr><td>Analogy</td><td>\(L\,\ddot q + R\,\dot q + q/C = e\) \(\leftrightarrow\) \(m\ddot x + c\dot x + kx = F\)</td><td>inductor = mass</td></tr>
+</table></div>
+
+<h3>Capacitor</h3>
+<div class="tbl"><table>
+  <tr><th>Quantity</th><th>Formula</th><th>Notes</th></tr>
+  <tr><td>Capacitance</td><td>\(C = q/v\)</td><td>farads = coulombs / volts</td></tr>
+  <tr><td>Parallel plates</td><td>\(C = \epsilon A/d\)</td><td>\(A\) plate area, \(d\) separation</td></tr>
+  <tr><td>Permittivity</td><td>\(\epsilon = \epsilon_0\epsilon_r\)</td><td>\(\epsilon_0\approx 8.85\times10^{-12}\) F/m</td></tr>
+  <tr><td>Speed of light</td><td>\(c = 1/\sqrt{\mu_0\epsilon_0} = 299\,792\,458\) m/s</td><td>from your side note</td></tr>
+  <tr><td>Capacitor V-I</td><td>\(i = dq/dt = C\,dv/dt\)</td><td>ampere = coulomb / second</td></tr>
+  <tr><td>Voltage from current</td><td>\(v = \dfrac1C\int i\,dt = q/C\)</td><td></td></tr>
+  <tr><td>Capacitor power</td><td>\(p = vi = Cv\,dv/dt\)</td><td></td></tr>
+  <tr><td>Capacitor energy</td><td>\(W = \tfrac12 CV^2\)</td><td>joules</td></tr>
+  <tr><td>Resistor (for comparison)</td><td>\(v = iR\)</td><td></td></tr>
+  <tr><td>Average power</td><td>\(P_{avg} = W/t\)</td><td>used in Capacitor Exercise 2</td></tr>
+</table></div>
+
+<h3>First-order circuits</h3>
+<div class="tbl"><table>
+  <tr><th>Item</th><th>Formula</th></tr>
+  <tr><td>General linear ODE</td><td>\(y' + P(x)y = Q(x)\)</td></tr>
+  <tr><td>Integrating factor</td><td>\(\text{i.f.} = e^{\int P\,dx}\); \(y\cdot\text{i.f.} = \int Q\cdot\text{i.f.}\,dx\)</td></tr>
+  <tr><td>Total response</td><td>\(x_{total} = x_n + x_f\)</td></tr>
+  <tr><td>RC ODE (voltage)</td><td>\(\dfrac{dv_C}{dt} + \dfrac{1}{RC}v_C = \dfrac{V_S}{RC}\)</td></tr>
+  <tr><td>RC solution (voltage)</td><td>\(v_C = V_S + (V_0 - V_S)e^{-t/RC}\)</td></tr>
+  <tr><td>RC ODE (charge)</td><td>\(\dfrac{dq}{dt} + \dfrac{1}{RC}q = \dfrac{E}{R}\)</td></tr>
+  <tr><td>RC solution (charge)</td><td>\(q = EC + (q_0 - EC)e^{-t/RC}\)</td></tr>
+  <tr><td>RC from empty</td><td>\(v_C = V_S(1 - e^{-t/RC})\); \(\;i = \dfrac{E}{R}e^{-t/RC}\)</td></tr>
+  <tr><td>RC time constant</td><td>\(\tau = RC\)</td></tr>
+  <tr><td>RL ODE</td><td>\(\dfrac{di_L}{dt} + \dfrac{R}{L}i_L = \dfrac{V_S}{L}\)</td></tr>
+  <tr><td>RL solution</td><td>\(i_L = \dfrac{V_S}{R} + \left(I_0 - \dfrac{V_S}{R}\right)e^{-Rt/L}\)</td></tr>
+  <tr><td>RL from zero</td><td>\(i_L = \dfrac{V_S}{R}\left(1 - e^{-Rt/L}\right)\)</td></tr>
+  <tr><td>RL time constant</td><td>\(\tau = L/R\)</td></tr>
+  <tr><td>Value at \(t=\tau\)</td><td>\(e^{-1}\approx 0.368\)</td></tr>
+  <tr><td>DC steady state</td><td>capacitor = open circuit; inductor = short circuit</td></tr>
+</table></div>
+
+<h3>Unit conversions used in the notes</h3>
+<div class="tbl"><table>
+  <tr><th>Prefix</th><th>Value</th><th>Used for</th></tr>
+  <tr><td>m (milli)</td><td>\(10^{-3}\)</td><td>mH to H (÷1000), ms to s</td></tr>
+  <tr><td>µ (micro)</td><td>\(10^{-6}\)</td><td>µH to H, µF to F, µm to m</td></tr>
+  <tr><td>k (kilo)</td><td>\(10^{3}\)</td><td>kΩ to Ω (2.2 kΩ = 2200 Ω; 100 kΩ = 100 000 Ω)</td></tr>
+</table></div>
+<p>Your method in the notes: multiply by a fraction equal to 1, such as \(\left(\dfrac{1\ \text{H}}{1000\ \text{mH}}\right)\), and cross out the units (crossed out in green).</p>
+
+<!-- ============ COMPARISON ============ -->
+<h2 id="compare">Side-by-side comparison</h2>
+<div class="tbl"><table>
+  <tr><th></th><th>Resistor</th><th>Inductor</th><th>Capacitor</th></tr>
+  <tr><td>Governing equation</td><td>\(v = iR\)</td><td>\(v = L\,di/dt\)</td><td>\(i = C\,dv/dt\)</td></tr>
+  <tr><td>Mechanical analogue</td><td>(damper, in the note's mechanical equation)</td><td>mass (inertia)</td><td>spring (elasticity)</td></tr>
+  <tr><td>What it opposes</td><td></td><td>changes in current</td><td>changes in voltage</td></tr>
+  <tr><td>Energy storage</td><td>none: dissipates heat</td><td>magnetic field</td><td>electric field</td></tr>
+  <tr><td>Energy formula</td><td></td><td>\(\tfrac12 LI^2\)</td><td>\(\tfrac12 CV^2\)</td></tr>
+  <tr><td>Continuous quantity</td><td></td><td>current</td><td>voltage</td></tr>
+  <tr><td>Instantaneous jump would need</td><td></td><td>\(di/dt=\infty\), infinite voltage</td><td>\(dv/dt=\infty\), infinite current</td></tr>
+  <tr><td>DC steady state</td><td></td><td>short circuit (\(di/dt = 0\), so \(v=0\))</td><td>open circuit (\(dv/dt = 0\), so \(i=0\))</td></tr>
+  <tr><td>Unit</td><td>ohm</td><td>henry</td><td>farad</td></tr>
+  <tr><td>Set by</td><td></td><td>turns, area, length, core</td><td>plate area, gap, dielectric</td></tr>
+  <tr><td>Time constant (with R)</td><td></td><td>\(L/R\)</td><td>\(RC\)</td></tr>
+  <tr><td>Circuit variable solved</td><td></td><td>\(i_L\)</td><td>\(v_C\)</td></tr>
+</table></div>
+<p>Comparison of the battery and the capacitor, from your notes: a battery stores energy in chemicals and charges/discharges gradually; a capacitor stores it in an electric field and charges/discharges fast.</p>
+
+<!-- ============ MANIPULATION ============ -->
+<h2 id="manip">How to manipulate the formulas</h2>
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <h4 style="margin-top:.4em">Rearranging</h4>
+  <div class="tbl"><table>
+    <tr><th>Start</th><th>Solve for</th><th>Result</th></tr>
+    <tr><td>\(v = L\,di/dt\)</td><td>\(L\); \(di/dt\)</td><td>\(L = \dfrac{v}{di/dt}\); \(\dfrac{di}{dt} = \dfrac vL\)</td></tr>
+    <tr><td>\(W = \tfrac12 LI^2\)</td><td>\(I\); \(L\)</td><td>\(I = \sqrt{2W/L}\); \(L = 2W/I^2\)</td></tr>
+    <tr><td>\(i = C\,dv/dt\)</td><td>\(C\); \(dv/dt\)</td><td>\(C = \dfrac{i}{dv/dt}\); \(\dfrac{dv}{dt} = \dfrac iC\)</td></tr>
+    <tr><td>\(W = \tfrac12 CV^2\)</td><td>\(V\); \(C\)</td><td>\(V = \sqrt{2W/C}\); \(C = 2W/V^2\)</td></tr>
+    <tr><td>\(C = \epsilon_0\epsilon_r A/d\)</td><td>\(A\); \(d\); \(\epsilon_r\)</td><td>\(A = \dfrac{Cd}{\epsilon_0\epsilon_r}\); \(d = \dfrac{\epsilon_0\epsilon_r A}{C}\); \(\epsilon_r = \dfrac{Cd}{\epsilon_0 A}\)</td></tr>
+    <tr><td>\(C = q/v\)</td><td>\(q\); \(v\)</td><td>\(q = Cv\); \(v = q/C\)</td></tr>
+  </table></div>
+
+  <h4>Linear ramps</h4>
+  <p>When a current or voltage rises linearly, the derivative is constant: \(\dfrac{di}{dt} = \dfrac{\Delta i}{\Delta t}\) and \(\dfrac{dv}{dt} = \dfrac{\Delta v}{\Delta t}\). (Inductor Example 1, Capacitor Exercise 1.)</p>
+
+  <h4>Differentiating a given function</h4>
+  <p>For \(i(t) = Ae^{-at}\): \(\dfrac{di}{dt} = -aA\,e^{-at}\). For \(i(t) = kt\): \(\dfrac{di}{dt} = k\). Evaluate at the requested time <em>after</em> differentiating. (Inductor Exercises 1 and 2.)</p>
+
+  <h4>The three-number shortcut for any first-order circuit</h4>
+  <p>The RC and RL results have the same form, so for a DC first-order circuit you only need three numbers:</p>
+  \[ x(t) = x(\infty) + \big[x(0) - x(\infty)\big]e^{-t/\tau} \]
+  <ul>
+    <li>\(x(0)\): the initial value, from continuity (capacitor voltage and inductor current cannot jump).</li>
+    <li>\(x(\infty)\): the final value, from DC steady state (capacitor open, inductor short).</li>
+    <li>\(\tau\): \(RC\) or \(L/R\).</li>
+  </ul>
+  <p>Match to the slides: RC has \(x = v_C\), \(x(\infty) = V_S\), \(x(0) = V_0\), \(\tau = RC\). RL has \(x = i_L\), \(x(\infty) = V_S/R\), \(x(0) = I_0\), \(\tau = L/R\).</p>
+
+  <h4>Solving for the time to reach a target value</h4>
+  <p>Isolate the exponential, then take the natural log:</p>
+  \[ x = x_\infty + (x_0 - x_\infty)e^{-t/\tau} \;\Rightarrow\; e^{-t/\tau} = \frac{x - x_\infty}{x_0 - x_\infty} \;\Rightarrow\; t = \tau\ln\frac{x_0 - x_\infty}{x - x_\infty} \]
+  <p>Check with RC Example 2: \(x_0 = 5\), \(x_\infty = 15\), \(x = 14\): \(t = \tau\ln\dfrac{-10}{-1} = \tau\ln 10 = 2.30\) s. ✓ (Your note gets there with \(-\ln\frac1{10}\), the same number.)</p>
+
+  <h4>Percentage of a maximum energy</h4>
+  <p>Energy goes with the square of current (or voltage), so \(\dfrac{W}{W_{max}} = \left(\dfrac{i}{I_{ss}}\right)^2\). To find when the energy reaches a fraction \(p\), first find \(i = \sqrt p\,I_{ss}\), then solve for \(t\). (RL Exercise 2.)</p>
+
+  <h4>Unit checklist before you compute</h4>
+  <ul>
+    <li>Convert every prefix to base units first (mH, µH, µF, µm, ms, kΩ).</li>
+    <li>Use \(RC\) or \(L/R\) in seconds; an exponent must be dimensionless.</li>
+    <li>Keep the sign: a negative induced voltage (Inductor Exercise 1) is meaningful, not an error.</li>
+  </ul>
+</div>
+
+<div class="src add">
+  <span class="tag">Added for study: solving any first-order problem in five steps</span>
+  <ol>
+    <li>Identify the circuit type and the storage element (\(C\) or \(L\)); find \(\tau\).</li>
+    <li>Find the initial value from the circuit just before the switch moves (capacitor voltage or inductor current carries over).</li>
+    <li>Find the final value with the DC steady-state rule.</li>
+    <li>Write \(x(t) = x(\infty) + [x(0) - x(\infty)]e^{-t/\tau}\) (or derive it from KVL and the integrating factor, as the slides do).</li>
+    <li>Substitute the requested time, or solve for the time with a natural log.</li>
+  </ol>
+</div>
+
+<!-- ============ ADDED SOLUTIONS ============ -->
+<h2 id="added-solutions">Worked answers for problems with no solution in your notes</h2>
+<p>Your notes contain no worked solutions for RC Exercises 1 and 2 or for any of the four RL problems. Here are complete solutions in your format (given, required, solution). All numbers were checked numerically.</p>
+
+<section class="ex" id="sol-rc1">
+<header>RC Exercise 1: current after one time constant</header>
+<div class="body">
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(V_S = 24\ \text{V}\), \(R = 10\ \Omega\), \(C = 500\ \mu\text{F} = 5\times10^{-4}\ \text{F}\), \(q_0 = 0\) (so \(V_0 = 0\))</dd>
+    <dt>Required:</dt><dd>\(i(t)\) at \(t = \tau\)</dd>
+  </dl>
+  <p>Time constant: \(\tau = RC = (10)(5\times10^{-4}) = 5\times10^{-3}\) s = 5 ms.</p>
+  <p>Capacitor voltage: \(v_C = 24\left(1 - e^{-t/\tau}\right)\). The resistor current is the loop current:</p>
+  \[ i(t) = \frac{V_S - v_C}{R} = \frac{V_S}{R}e^{-t/\tau} = 2.4\,e^{-t/0.005}\ \text{A} \]
+  <p>(This matches your \(I = \frac{E}{R}e^{-t/RC}\).) At \(t = \tau\):</p>
+  \[ i(\tau) = 2.4\,e^{-1} = 2.4(0.3679) \]
+  <p><span class="result">i(τ) ≈ 0.883 A</span> (36.8% of the initial 2.4 A)</p>
+</div>
+</div>
+</section>
+
+<section class="ex" id="sol-rc2">
+<header>RC Exercise 2: energy remaining after one time constant</header>
+<div class="body">
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(C = 2200\ \mu\text{F} = 2.2\times10^{-3}\ \text{F}\), \(V_0 = 50\) V, \(V_S = 0\) (discharging)</dd>
+    <dt>Required:</dt><dd>\(W\) at \(t = \tau\)</dd>
+  </dl>
+  <p>Voltage during discharge: \(v_C = 0 + (50 - 0)e^{-t/RC} = 50e^{-t/RC}\). At \(t = \tau = RC\):</p>
+  \[ v_C(\tau) = 50\,e^{-1} = 18.39\ \text{V} \]
+  \[ W = \tfrac12 C v_C^2 = \tfrac12(2.2\times10^{-3})(18.39)^2 \]
+  <p><span class="result">W ≈ 0.372 J</span></p>
+  <p>Shortcut: energy goes as the voltage squared, so \(W(\tau) = W_0\,e^{-2}\). With \(W_0 = \tfrac12(2.2\times10^{-3})(50)^2 = 2.75\) J (your Exercise 2 answer), \(W(\tau) = 2.75(0.1353) = 0.372\) J ✓. The resistor value is not needed because \(\tau\) cancels: at one time constant, the energy is always \(e^{-2}\approx13.5\%\) of the starting energy.</p>
+</div>
+</div>
+</section>
+
+<section class="ex" id="sol-rl1">
+<header>RL Example 1: solenoid valve current at 5 ms</header>
+<div class="body">
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(L = 500\ \text{mH} = 0.5\ \text{H}\), \(R = 50\ \Omega\), \(V_S = 24\ \text{V}\), \(I_0 = 0\), \(t = 5\ \text{ms} = 0.005\ \text{s}\)</dd>
+    <dt>Required:</dt><dd>\(i_L(0.005)\)</dd>
+  </dl>
+  <p>\(\tau = L/R = 0.5/50 = 0.01\) s = 10 ms. Steady-state current: \(V_S/R = 24/50 = 0.48\) A.</p>
+  \[ i_L = \frac{V_S}{R}\left(1 - e^{-Rt/L}\right) = 0.48\left(1 - e^{-0.005/0.01}\right) = 0.48\left(1 - e^{-0.5}\right) \]
+  \[ i_L = 0.48\,(1 - 0.6065) \]
+  <p><span class="result">i_L ≈ 0.189 A</span> (about 39% of the final 0.48 A; half a time constant has passed)</p>
+</div>
+</div>
+</section>
+
+<section class="ex" id="sol-rl2">
+<header>RL Example 2: time when the inductor voltage equals the resistor voltage</header>
+<div class="body">
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <p>From KVL, \(v_L + v_R = V_S\). If \(v_L = v_R\), then each equals \(V_S/2\) = 12 V. The resistor voltage is \(v_R = iR\), so:</p>
+  \[ i = \frac{V_S}{2R} = \frac{24}{2(50)} = 0.24\ \text{A} \quad(\text{half of the final } 0.48\ \text{A}) \]
+  <p>Solve \(0.48(1 - e^{-t/\tau}) = 0.24\):</p>
+  \[ 1 - e^{-t/\tau} = 0.5 \;\Rightarrow\; e^{-t/\tau} = 0.5 \;\Rightarrow\; t = \tau\ln 2 = (0.01)(0.6931) \]
+  <p><span class="result">t ≈ 6.93 ms</span></p>
+</div>
+</div>
+</section>
+
+<section class="ex" id="sol-rl3">
+<header>RL Exercise 1: discharging an industrial magnet to 1 A</header>
+<div class="body">
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(L = 2\ \text{H}\), \(R = 10\ \Omega\), \(I_0 = 10\ \text{A}\), \(V_S = 0\)</dd>
+    <dt>Required:</dt><dd>\(t\) when \(i_L = 1\) A</dd>
+  </dl>
+  <p>\(\tau = L/R = 2/10 = 0.2\) s. With \(V_S = 0\): \(i_L = 0 + (10 - 0)e^{-Rt/L} = 10\,e^{-t/0.2}\).</p>
+  \[ 1 = 10\,e^{-t/0.2} \;\Rightarrow\; e^{-t/0.2} = 0.1 \;\Rightarrow\; t = 0.2\ln 10 \]
+  <p><span class="result">t ≈ 0.461 s</span> (2.30 time constants)</p>
+</div>
+</div>
+</section>
+
+<section class="ex" id="sol-rl4">
+<header>RL Exercise 2: energy reaches 75% of its steady-state maximum</header>
+<div class="body">
+<div class="src add">
+  <span class="tag">Added for study</span>
+  <dl class="given">
+    <dt>Given:</dt><dd>\(V_S = 10\ \text{V}\), \(R = 100\ \Omega\), \(L = 200\ \text{mH} = 0.2\ \text{H}\), \(I_0 = 0\)</dd>
+    <dt>Required:</dt><dd>\(t\) when \(W = 0.75\,W_{max}\)</dd>
+  </dl>
+  <p>\(\tau = L/R = 0.2/100 = 2\) ms. Steady-state current \(I_{ss} = V_S/R = 0.1\) A, so \(W_{max} = \tfrac12 L I_{ss}^2 = \tfrac12(0.2)(0.1)^2 = 1\) mJ.</p>
+  <p>Energy is \(\tfrac12 L i^2\), so \(W/W_{max} = (i/I_{ss})^2 = 0.75\), which means \(i/I_{ss} = \sqrt{0.75} = 0.8660\).</p>
+  \[ 1 - e^{-t/\tau} = 0.8660 \;\Rightarrow\; e^{-t/\tau} = 0.1340 \;\Rightarrow\; t = -\tau\ln(0.1340) = 2.010\,\tau \]
+  \[ t = 2.010\times(2\ \text{ms}) \]
+  <p><span class="result">t ≈ 4.02 ms</span></p>
+  <p>Common trap: setting \(1 - e^{-t/\tau} = 0.75\) instead. That finds when the <em>current</em> is 75% (1.39τ), not the energy.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ FLAGS ============ -->
+<h2 id="flags">Errors and unclear spots in the notes</h2>
+<p>These are places where the slides or handwriting contain a slip or something that could mislead you when studying. None of them changes any final answer in the notes.</p>
+<div class="src warn">
+  <span class="tag">Worth correcting in your own copy</span>
+  <ul>
+    <li><strong>RL integrating-factor slide</strong> says "We solve for \(v_C\)". For the RL circuit the unknown is the inductor current \(i_L\).</li>
+    <li><strong>RL time-constant slide</strong> text says "The term \(RC\) has units of time". It should say \(L/R\); the boxed formula \(\tau = L/R\) is right.</li>
+    <li><strong>Speed of light note</strong> is written with a capital "C". It is the speed of light \(c\), not capacitance.</li>
+    <li><strong>Mechanical equation</strong> \(m\ddot x + C\dot x + kx = F\): the \(C\) is the damping coefficient, not capacitance.</li>
+    <li><strong>"Why τ" circuit sketch</strong> (RC page) shows a coil symbol next to the resistor, but the derivation on that page is for an RC circuit, so the component should be a capacitor.</li>
+    <li><strong>Energy integral, handwritten</strong> \(w = L\int_0^t i\,di\) has the wrong upper limit for a current integral; your next line correctly uses \(0\) to \(I\).</li>
+    <li><strong>\(\vec B\cdot d\vec l = Bl\)</strong> is shorthand. Around a full circle the integral is \(B\cdot 2\pi r\); \(l\) means the path length.</li>
+    <li><strong>"∞ = 9999"</strong> is a fine practical stand-in, but for hand calculations use "5τ".</li>
+    <li><strong>Handwriting that was hard to read</strong>: the third line of the energy derivation (probably \(W=\int F\,dx\)), and the red note by the end of the charging curve (about ∞ and 5τ). I described these as best I could.</li>
+  </ul>
+</div>
+
+<p style="margin-top:2.5em;color:var(--ink2);font-size:.9rem">End of master file. Source: BEE 211/L Weeks 6–7 notes (Notein PDF).</p>
+</main>
+</div>
+</body>
+</html>
+
